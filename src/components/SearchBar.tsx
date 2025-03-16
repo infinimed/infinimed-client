@@ -3,7 +3,7 @@ import { Box } from '@radix-ui/themes';
 import { TextField } from '@radix-ui/themes';
 import React, { ReactNode, useEffect, useState } from 'react';
 // import { Magnifying } from '@radix-ui/react-icons'
-import magnifyingGlass from '@/icons/magnifyingGlass.svg';
+// import magnifyingGlass from '@/icons/magnifyingGlass.svg';
 import Image from 'next/image';
 import { useAppSelector } from '@/lib/hooks';
 import { ISearchResult } from '@/interfaces/ISearchResult';
