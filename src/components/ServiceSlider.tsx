@@ -54,7 +54,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
                 />
                 <Flex
                   justify={'between'}
-                  className="flex w-[60vw] lg:w-full pb-6 text-start justify-between items-center mt-3 pl-2 pr-2"
+                  className="flex w-[60vw] lg:w-full pb-2 text-start justify-between items-center mt-3 pl-2 pr-2"
                 >
                   <Text
                     as="p"
