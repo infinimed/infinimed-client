@@ -77,7 +77,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ visibility }) => {
           onChange={(e) => setQuery(e.target.value)}
         >
           <TextField.Slot className="">
-            <Image src={magnifyingGlass} alt="search"></Image>
+            <Image
+              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Search_01_qopros.png"
+              width={50}
+              height={50}
+              alt="search"
+            ></Image>
           </TextField.Slot>
         </TextField.Root>
 

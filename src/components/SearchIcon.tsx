@@ -11,9 +11,9 @@ const SearchIcon: React.FC<SearchIconProps> = () => {
 
   return (
     <Image
-      src="https://res.cloudinary.com/dgayarw1f/image/upload/v1738956001/Search_01_eb48up.png"
-      height={40}
-      width={40}
+      src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Search_01_qopros.png"
+      height={50}
+      width={50}
       alt=""
       className=""
       onClick={() => {

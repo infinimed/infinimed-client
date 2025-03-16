@@ -17,7 +17,7 @@ const CartIconTopbar: React.FC<CartIconTopbarProps> = () => {
           height={'70'}
           className="h-12 w-auto"
           src={
-            'https://res.cloudinary.com/dgayarw1f/image/upload/v1738956001/Cart_01_mn8gkq.png'
+            'https://res.cloudinary.com/dgayarw1f/image/upload/v1742114433/Cart_01_q8e3lq.png'
           }
           alt="cart"
         />

@@ -15,12 +15,12 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
     <>
       <FloatingCallButton phoneNumber="1234567890" />
       <div className="bg-white h-[9vh] w-full fixed bottom-0 z-10 shadow-inner flex space-between pb-4 lg:hidden">
-        <div className="w-1/5 p-3">
+        <div className="w-1/5 p-2">
           <Link href="/past-orders">
             <Image
-              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1738956002/Order_01_z83fzi.png"
-              width={100}
-              height={100}
+              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Order_01_ijki7g.png"
+              width={150}
+              height={150}
               className=""
               alt=""
             ></Image>
@@ -30,7 +30,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
         <div className="w-1/5 p-3">
           <Link href={'/offers'}>
             <Image
-              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1730292454/rqsytgy2wgja67p3a3dv.png"
+              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Percent_01_bbhavk.png"
               width={100}
               height={100}
               alt=""
@@ -52,7 +52,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
         <div className="w-1/5 p-2 relative">
           <Link href={'/cart'}>
             <Image
-              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1738956001/Cart_01_mn8gkq.png"
+              src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114433/Cart_01_q8e3lq.png"
               width={100}
               height={100}
               alt=""
@@ -68,7 +68,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
             </div>
           </Link>
         </div>
-        <div className="w-1/5 p-3">
+        <div className="w-1/5 p-5">
           {isLoggedIn ? (
             <Link href={'/profile'}>
               <Image

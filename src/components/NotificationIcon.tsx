@@ -21,9 +21,9 @@ const NotificationIcon: React.FC<NotificationIconProps> = () => {
     <Link href={'/notifications'}>
       <div className="relative">
         <Image
-          src="https://res.cloudinary.com/dsuiwxwkg/image/upload/v1740317343/Notification_01_iaggbk.png"
-          height={70}
-          width={70}
+          src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Notification_01_d45vjy.png"
+          height={80}
+          width={80}
           className="w-auto lg:w-[3vw] h-12"
           alt=""
         ></Image>
