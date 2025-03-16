@@ -58,7 +58,7 @@ const OrderDetails: React.FC<DetailsProps> = () => {
   const [order, setOrder] = useState<IOrderDetails>();
   const [cancellationPrompt, setCancellationPrompt] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
-  const [loadingYes, setLoadingYes] = useState(true);
+  const [loadingYes, setLoadingYes] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
