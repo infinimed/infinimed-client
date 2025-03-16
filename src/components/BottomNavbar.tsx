@@ -1,15 +1,26 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FloatingCallButton from './FloatingCallButton';
 import { useAppSelector } from '@/lib/hooks';
+import { getUser } from '@/services/getUser';
+import { IUser } from '@/interfaces/IUser';
 
 type BottomNavbarProps = object;
 
 const BottomNavbar: React.FC<BottomNavbarProps> = () => {
   const cartItems = useAppSelector((state) => state.addToCart.items);
   const isLoggedIn = useAppSelector((state) => state.setIsLoggedIn);
+  const [user, setUser] = useState<IUser>();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser()
+        .then((res) => res.json())
+        .then((res) => setUser(res));
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -72,7 +83,13 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
           {isLoggedIn ? (
             <Link href={'/profile'}>
               <Image
-                src="https://res.cloudinary.com/dgayarw1f/image/upload/v1733056332/WhatsApp_Image_2022-12-14_at_08.53.02_tjiwxg.jpg"
+                src={
+                  (user?.profile_picture?.toString() as string)?.includes(
+                    'http',
+                  )
+                    ? (user?.profile_picture?.toString() as string)
+                    : 'https://res.cloudinary.com/dgayarw1f/image/upload/v1730292455/pzmgg0mw21uvza1btsgm.png'
+                }
                 width={100}
                 height={100}
                 className="rounded-full w-full aspect-square object-cover"

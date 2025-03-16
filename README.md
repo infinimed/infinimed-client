@@ -1,6 +1,10 @@
 To do -
 
 Bugs -
+gap in homepage safari
+signup bug
+profile picture in mobile bottom right needs to be dynamic
+medicine cancel order loading state bug
 
 Error Handling
 
