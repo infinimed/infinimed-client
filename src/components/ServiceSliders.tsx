@@ -43,7 +43,7 @@ const ServiceSliders: React.FC<ServiceSlidersProps> = () => {
   return (
     <Box className="mb-[10vh] w-full">
       {data.map((service) => (
-        <div key={service.id} className="mt-4">
+        <div key={service.id} className="">
           <div className="flex justify-between">
             <p className="font-poppins no-scrollbar font-bold text-xl">
               {service.title}
