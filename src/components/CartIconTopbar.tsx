@@ -13,11 +13,11 @@ const CartIconTopbar: React.FC<CartIconTopbarProps> = () => {
     <Link href={'/cart'}>
       <div className="relative">
         <Image
-          width={'70'}
-          height={'70'}
-          className="h-12 w-auto"
+          width={'100'}
+          height={'100'}
+          className="h-12 w-auto shadow-lg rounded-full"
           src={
-            'https://res.cloudinary.com/dgayarw1f/image/upload/v1742114433/Cart_01_q8e3lq.png'
+            'https://res.cloudinary.com/dgayarw1f/image/upload/v1745765981/Neomorphic_Icon_set_002-12_bjtyak.png'
           }
           alt="cart"
         />

@@ -1,27 +1,5 @@
 To do -
 
-Bugs -
-gap in homepage safari
-signup bug
-
-<!-- profile picture in mobile bottom right needs to be dynamic -->
-
-<!-- medicine cancel order loading state bug -->
-
-Error Handling
-
-- Signin - TEST
-- signup - TEST
-- Order placing - TEST
-- Issue creation - TEST
-- get requests failing error boundary - TEST
-- Order Cancelling - TEST
-
-Requirements
-
-- OTP verification on Service Provider end
-- Upload more documents from appointment status page
-
 UI improvements
 
 - place icons instead of labels in past orders and other lists

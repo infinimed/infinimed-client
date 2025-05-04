@@ -9,13 +9,14 @@ import ServiceSliders from '@/components/ServiceSliders';
 import NavbarTop from '@/components/desktop/NavbarTop';
 import SideNavbar from '@/components/desktop/SideNavbar';
 import UpcomingAppointment from '@/components/UpcomingAppointment';
-
-// import ProfileAvatar from '@/components/ProfileAvatar';
+import CartIconTopbar from '@/components/CartIconTopbar';
+import ProfilePicture from '@/components/ProfilePicture';
 
 export default function Home() {
   return (
     <>
       {/* desktop navbar  */}
+
       <NavbarTop></NavbarTop>
       <Flex
         className="w-full overflow-x-hidden p-3 relative"
@@ -25,10 +26,15 @@ export default function Home() {
         {/* For Mobile */}
         <div className="lg:hidden">
           <Flex justify={'between'} align={'center'}>
-            <SelectArea></SelectArea>
+            <Flex className="" justify={'start'} align={'center'}>
+              <ProfilePicture></ProfilePicture>
+              <SelectArea></SelectArea>
+            </Flex>
+
             <Flex className="" justify={'between'}>
               <SearchIcon></SearchIcon>
               <NotificationIcon></NotificationIcon>
+              <CartIconTopbar></CartIconTopbar>
             </Flex>
           </Flex>
           <SearchBar></SearchBar>

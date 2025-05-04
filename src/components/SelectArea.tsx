@@ -124,11 +124,11 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
     <>
       <div className="flex items-center justify-between">
         <Image
-          src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114433/Location_01_ii1hxa.png"
+          src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768384/Neomorphic_Icon_set_002-10_ecbp7k.svg"
           alt="marker"
           width={70}
           height={70}
-          className="h-12 w-auto mr-1"
+          className="h-12 w-auto mr-1 shadow-lg rounded-full"
         ></Image>
         <Select.Root
           onValueChange={onAreaChange}

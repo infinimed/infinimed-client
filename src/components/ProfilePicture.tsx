@@ -23,7 +23,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
   }, [isLoggedIn]);
 
   return (
-    <div className="w-[3vw]">
+    <div className="lg:w-[3vw] w-[8vw]">
       {' '}
       {isLoggedIn === true ? (
         <Link href={'/profile'}>
@@ -31,11 +31,11 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
             src={
               (user?.profile_picture?.toString() as string)?.includes('http')
                 ? (user?.profile_picture?.toString() as string)
-                : 'https://res.cloudinary.com/dgayarw1f/image/upload/v1730292455/pzmgg0mw21uvza1btsgm.png'
+                : 'https://res.cloudinary.com/dgayarw1f/image/upload/v1745768387/Neomorphic_Icon_set_002-14_lwhw05.svg'
             }
             width={100}
             height={100}
-            className="rounded-full w-full aspect-square object-cover"
+            className="rounded-full w-full aspect-square object-cover border-solid border-2 shadow-md"
             alt=""
           ></Image>
           <p></p>
@@ -43,10 +43,10 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
       ) : (
         <Link href={'/login'}>
           <Image
-            src="https://res.cloudinary.com/dgayarw1f/image/upload/v1730292455/pzmgg0mw21uvza1btsgm.png"
+            src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768387/Neomorphic_Icon_set_002-14_lwhw05.svg"
             width={100}
             height={100}
-            className="border-rounded"
+            className="border-rounded rounded-full shadow-md"
             alt=""
           ></Image>
           <p></p>

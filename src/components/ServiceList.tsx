@@ -76,7 +76,7 @@ const ServiceList: React.FC<IServiceListProps> = () => {
                 <Image
                   width={150}
                   height={150}
-                  className="w-full h-auto rounded-2xl p-3 bg-white border-solid border-4 border-[#283891]"
+                  className="w-full h-auto rounded-2xl bg-white shadow-lg"
                   alt="service"
                   src={service.icon}
                 />

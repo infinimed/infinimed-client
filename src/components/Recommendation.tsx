@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Flex, Box, Text } from '@radix-ui/themes';
-import { Label } from '@radix-ui/react-label';
+// import { Label } from '@radix-ui/react-label';
 // import { Carousel } from 'flowbite-react';
 //@ts-expect-error no type declaration
 // import Slider from 'react-infinite-logo-slider';
@@ -27,21 +27,21 @@ const data: IRecommendation[] = [
   {
     id: 1,
     image:
-      'https://res.cloudinary.com/dsuiwxwkg/image/upload/v1726988860/infinimed/pharmacy_ehjroy.jpg',
+      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner2_x4acuo.jpg',
     title: 'Pharmacy',
     link: '/issue',
   },
   {
     id: 2,
     image:
-      'https://res.cloudinary.com/dsuiwxwkg/image/upload/v1726988853/infinimed/nursing_eg5lqj.jpg',
+      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner1_jurrbe.jpg',
     title: 'Nursing',
     link: '/issue',
   },
   {
     id: 3,
     image:
-      'https://res.cloudinary.com/dsuiwxwkg/image/upload/v1726988852/infinimed/phisiotherapist_tfsxlh.jpg',
+      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner3_iavzk0.jpg',
     title: 'Phisiotherapy',
     link: '/issue',
   },
@@ -65,9 +65,9 @@ const Recommendation: React.FC<RecommendationProps> = () => {
 
   return (
     <Box>
-      <Label className="font-poppins no-scrollbar font-bold text-xl z-30 mb-[5vh] mt-3">
+      {/* <Label className="font-poppins no-scrollbar font-bold text-xl z-30 mb-[5vh] mt-3">
         Recommended For you
-      </Label>
+      </Label> */}
       {/* <Flex className="w-[95vw] overflow-scroll no-scrollbar mt-3"> */}
       <Slider {...settings} className="lg:w-[70vw] mt-3">
         {data.map((service: IRecommendation) => (

@@ -43,19 +43,21 @@ const SideNavbar: React.FC<SideNavbarProps> = () => {
               width={60}
               height={60}
               alt="service-icon"
+              className="shadow-md rounded-sm"
             ></Image>
             <p className="ml-5 font-bold">{service.name}</p>
           </div>
         </Link>
       ))}
       <Link href={'/past-orders'}>
-        <div className="p-2 flex items-center border-gray-300 border-b-[1px] w-[18vw]">
+        <div className="p-2 flex items-center border-gray-300 border-b-[1px] w-[18vw] ">
           <Image
             src={
-              'https://res.cloudinary.com/dgayarw1f/image/upload/v1738956002/Order_01_z83fzi.png'
+              'https://res.cloudinary.com/dgayarw1f/image/upload/v1745768380/Neomorphic_Icon_set_002-06_lemien.svg'
             }
             width={60}
             height={60}
+            className="shadow-md"
             alt="service-icon"
           ></Image>
           <p className="ml-5 font-bold">Orders</p>
