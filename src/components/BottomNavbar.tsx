@@ -29,22 +29,21 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
     <>
       <FloatingCallButton phoneNumber="1234567890" />
       <Flex className="w-full" justify={'center'}>
-        <div className="bg-indigo-900 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] h-fit w-[67%] rounded-full fixed bottom-6 z-10 flex space-between lg:hidden p-3">
-          <div className="w-1/3">
+        <div className="bg-indigo-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] h-fit w-[67%] rounded-full fixed bottom-6 z-10 flex space-between lg:hidden p-1">
+          <div className="w-1/3 p-3">
             <Link href={'/offers'}>
-              <SunThroughWindowIcon>
-                <Image
-                  src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768384/Neomorphic_Icon_set_002-09_zftwou.svg"
-                  width={100}
-                  height={100}
-                  alt=""
-                  className="rounded-full"
-                ></Image>
-              </SunThroughWindowIcon>
+              <Image
+                src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768384/Neomorphic_Icon_set_002-09_zftwou.svg"
+                width={100}
+                height={100}
+                alt=""
+                className="rounded-full"
+              ></Image>
+              {/* </SunThroughWindowIcon> */}
               <p></p>
             </Link>
           </div>
-          <div className="w-1/3 p-3">
+          <div className="w-1/3 p-3 full">
             <Link href={'/'}>
               <SunThroughWindowIcon>
                 <Image
@@ -54,20 +53,17 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
                   alt=""
                 ></Image>
               </SunThroughWindowIcon>
-              <p></p>
             </Link>
           </div>
           <div className="w-1/3 p-3">
             <Link href="/past-orders">
-              <SunThroughWindowIcon>
-                <Image
-                  src="https://res.cloudinary.com/dgayarw1f/image/upload/v1742114434/Order_01_ijki7g.png"
-                  width={120}
-                  height={120}
-                  className=""
-                  alt=""
-                ></Image>
-              </SunThroughWindowIcon>
+              <Image
+                src="https://res.cloudinary.com/american-international-university-bangladesh/image/upload/v1746971248/Neomorphic_Icon_set_002-06_gcdds7.svg"
+                width={120}
+                height={120}
+                className="rounded-full"
+                alt=""
+              ></Image>
 
               <p></p>
             </Link>

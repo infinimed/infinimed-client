@@ -41,7 +41,7 @@ const data: IService[] = [
 
 const ServiceSliders: React.FC<ServiceSlidersProps> = () => {
   return (
-    <Box className="mb-[10vh] w-full">
+    <Box className="mt-5 mb-10 w-full">
       {data.map((service) => (
         <div key={service.id} className="">
           <div className="flex justify-between">

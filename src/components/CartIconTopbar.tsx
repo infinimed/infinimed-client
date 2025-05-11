@@ -15,9 +15,9 @@ const CartIconTopbar: React.FC<CartIconTopbarProps> = () => {
         <Image
           width={'100'}
           height={'100'}
-          className="h-12 w-auto shadow-lg rounded-full"
+          className="h-12 w-auto shadow-lg rounded-full m-1"
           src={
-            'https://res.cloudinary.com/dgayarw1f/image/upload/v1745765981/Neomorphic_Icon_set_002-12_bjtyak.png'
+            'https://res.cloudinary.com/american-international-university-bangladesh/image/upload/v1746971249/Neomorphic_Icon_set_002-12_o9guhx.svg'
           }
           alt="cart"
         />

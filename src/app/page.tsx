@@ -19,7 +19,7 @@ export default function Home() {
 
       <NavbarTop></NavbarTop>
       <Flex
-        className="w-full overflow-x-hidden p-3 relative"
+        className="w-full overflow-x-hidden p-3 relative mb-[10vh]"
         justify={'center'}
         direction="column"
       >

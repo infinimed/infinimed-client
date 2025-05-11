@@ -28,21 +28,21 @@ const data: IRecommendation[] = [
     id: 1,
     image:
       'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner2_x4acuo.jpg',
-    title: 'Pharmacy',
+    title: '',
     link: '/issue',
   },
   {
     id: 2,
     image:
       'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner1_jurrbe.jpg',
-    title: 'Nursing',
+    title: '',
     link: '/issue',
   },
   {
     id: 3,
     image:
       'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner3_iavzk0.jpg',
-    title: 'Phisiotherapy',
+    title: '',
     link: '/issue',
   },
 ];
@@ -86,7 +86,7 @@ const Recommendation: React.FC<RecommendationProps> = () => {
               <Image
                 width={400}
                 height={400}
-                className="w-[93vw] lg:w-[70vw] lg:h-[40vh] rounded-lg object-cover"
+                className="w-[93vw] lg:w-[70vw] lg:h-full rounded-lg object-cover"
                 alt="service"
                 src={service.image}
               />

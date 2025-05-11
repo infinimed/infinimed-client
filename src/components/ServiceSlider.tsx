@@ -3,7 +3,7 @@ import React from 'react';
 import * as subServiceList from '@/data/service.json';
 // import { ISubservice } from '@/interfaces/ISubservice';
 import Link from 'next/link';
-import { Url } from 'next/dist/shared/lib/router/router';
+// import { Url } from 'next/dist/shared/lib/router/router';
 import Image from 'next/image';
 
 type ServiceSliderProps = {
@@ -37,7 +37,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
       {data[serviceSlug as keyof feed] &&
         data[serviceSlug as keyof feed].slice(0, 4).map((service: Service) => (
           <Box
-            className="w-[60vw] sm:w-[33vw] lg:w-[22vw] ml-3 mt-3 drop-shadow-lg"
+            className="w-[60vw] sm:w-[33vw] lg:w-[22vw] mr-3 mt-3 drop-shadow-lg"
             key={service.id}
           >
             <Link href={`/issue/service/${service?.url}`}>
@@ -54,7 +54,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
                 />
                 <Flex
                   justify={'between'}
-                  className="flex w-[60vw] lg:w-full pb-2 text-start justify-between items-center mt-3 pl-2 pr-2"
+                  className="flex w-[60vw] lg:w-full pb-2 text-start justify-between items-center mt-3 pr-2"
                 >
                   <Text
                     as="p"
@@ -69,7 +69,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
             </Link>
           </Box>
         ))}
-      <div className=" w-[45vw] lg:w-fit sm:w-[33vw] mr-3 mt-3 drop-shadow-lg h-full lg:hidden">
+      {/* <div className=" w-[45vw] lg:w-fit sm:w-[33vw] mr-3 mt-3 drop-shadow-lg h-full lg:hidden">
         <Link href={(serviceSlug || '') as Url}>
           <Flex
             direction={'column'}
@@ -80,7 +80,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
             </p>
           </Flex>
         </Link>
-      </div>
+      </div> */}
     </Flex>
   );
 };

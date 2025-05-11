@@ -5,6 +5,7 @@ import { changeAreaDropDownOpenState } from '@/lib/features/areaDropDownOpen/sea
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Select } from '@radix-ui/themes';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { MouseEventHandler, useEffect, useState } from 'react';
 
@@ -107,7 +108,7 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
     } else if (e === 'choose-area') {
       router.push('/add-area');
     } else {
-      const area = areas.find((area) => (area._id = e));
+      const area = areas.find((area) => area._id == e);
       dispatch(setArea(area as IArea));
     }
   }
@@ -157,9 +158,9 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
               className="font-poppins z-1000 absolute"
               value={'choose-area'}
             >
-              <p className="text-base font-poppins w-fit">
-                Choose Area on the map
-              </p>
+              <Link href={'/add-area'}>
+                <p className="text-base font-poppins w-fit">Show Map</p>
+              </Link>
             </Select.Item>
           </Select.Content>
         </Select.Root>

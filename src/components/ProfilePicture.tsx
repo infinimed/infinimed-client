@@ -23,7 +23,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
   }, [isLoggedIn]);
 
   return (
-    <div className="lg:w-[3vw] w-[8vw]">
+    <div className="lg:w-[3vw] w-12 m-1">
       {' '}
       {isLoggedIn === true ? (
         <Link href={'/profile'}>
