@@ -34,7 +34,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
 
   return (
     <div className="w-[45vw] lg:w-[15vw] bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
-      <Link href={`/medicine/${medicine._id}`}>
+      <Link href={`/medicine/${medicine?._id}`}>
         <Image
           width={300}
           height={300}
@@ -47,17 +47,17 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
         />
       </Link>
       <div className="p-5 w-full bg-white">
-        <Link href={`/medicine/${medicine._id}`}>
+        <Link href={`/medicine/${medicine?._id}`}>
           <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {medicine.generic.name}
+            {medicine?.generic?.name}
           </h5>
 
           <p className="mb-3 flex justify-between w-full font-normal text-gray-700 dark:text-gray-400">
-            {medicine.brand} <br />
-            {medicine.name}
+            {medicine?.brand} <br />
+            {medicine?.name}
           </p>
           <p className="font-poppins font-bold text-xl mb-4">
-            {medicine.price}Tk
+            {medicine?.price}Tk
           </p>
         </Link>
 
@@ -70,7 +70,7 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
               -
             </div>
             <div className="text-lg font-poppins">
-              {cart[medicine._id as string].quantity}
+              {cart[medicine?._id as string]?.quantity}
             </div>
 
             <div
