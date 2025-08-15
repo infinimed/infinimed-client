@@ -60,7 +60,7 @@ const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
                       </span>{' '}
                       {new Date(
                         item?.time_frame?.start_time,
-                      ).toLocaleDateString()}
+                      ).toLocaleDateString('en-GB')}
                       <br />
                       <span className="text-gray-700 font-bold">
                         Timeframe

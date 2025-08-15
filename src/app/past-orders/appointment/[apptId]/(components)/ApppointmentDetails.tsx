@@ -162,7 +162,7 @@ const AppointmentDetails: React.FC<DetailsProps> = () => {
                   {appointment?.time_frame &&
                     new Date(
                       appointment?.time_frame?.start_time as string,
-                    ).toLocaleDateString()}
+                    ).toLocaleDateString('en-GB')}
                   <br />
                   <span className="text-gray-700 font-bold">
                     Timeframe

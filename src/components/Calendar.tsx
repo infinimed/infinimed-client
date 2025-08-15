@@ -33,7 +33,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     <div className="relative">
       <input
         type="text"
-        value={selectedDate ? selectedDate.toLocaleDateString() : ''}
+        value={selectedDate ? selectedDate.toLocaleDateString('en-GB') : ''}
         onClick={() => setIsOpen((prev) => !prev)}
         readOnly
         placeholder="Select Date"
