@@ -38,11 +38,8 @@ export default function RootLayout({
         <ReduxProvider>
           <AuthProvider>
             <Theme accentColor="ruby" panelBackground="solid">
-              <div className="">
-                {children}
-
-                <BottomNavbar></BottomNavbar>
-              </div>
+              <main className="min-h-screen pb-24">{children}</main>
+              <BottomNavbar />
             </Theme>
           </AuthProvider>
         </ReduxProvider>

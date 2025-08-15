@@ -27,41 +27,42 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
 
   return (
     <>
-      <FloatingCallButton phoneNumber="1234567890" />
-      <Flex className="w-full" justify={'center'}>
-        <div className="bg-indigo-400 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] h-fit w-[67%] rounded-full fixed bottom-6 z-10 flex space-between lg:hidden p-1">
-          <div className="w-1/3 p-3">
+  <FloatingCallButton phoneNumber="1234567890" />
+  <Flex className="w-full" justify={'center'}>
+    <nav className="bg-indigo-400/90 backdrop-blur-md shadow-[inset_0_-2px_4px_rgba(0,0,0,0.4)] h-14 w-[66%] max-w-sm rounded-full fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex justify-between items-center lg:hidden px-4 py-2 border border-indigo-300/40">
+      <div className="flex-1 flex justify-center">
             <Link href={'/offers'}>
               <Image
                 src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768384/Neomorphic_Icon_set_002-09_zftwou.svg"
-                width={100}
-                height={100}
+        width={40}
+        height={40}
                 alt=""
-                className="rounded-full"
+        className="rounded-full w-10 h-10 object-contain"
               ></Image>
               {/* </SunThroughWindowIcon> */}
               <p></p>
             </Link>
           </div>
-          <div className="w-1/3 p-3 full">
+      <div className="flex-1 flex justify-center">
             <Link href={'/'}>
               <SunThroughWindowIcon>
                 <Image
                   src="https://res.cloudinary.com/dgayarw1f/image/upload/v1730292454/dvhuah5tzhgysxl2lxds.png"
-                  width={100}
-                  height={100}
+      width={52}
+      height={52}
                   alt=""
-                ></Image>
+      className="w-12 h-12 object-contain"
+        ></Image>
               </SunThroughWindowIcon>
             </Link>
           </div>
-          <div className="w-1/3 p-3">
+      <div className="flex-1 flex justify-center">
             <Link href="/past-orders">
               <Image
                 src="https://res.cloudinary.com/american-international-university-bangladesh/image/upload/v1746971248/Neomorphic_Icon_set_002-06_gcdds7.svg"
-                width={120}
-                height={120}
-                className="rounded-full"
+        width={40}
+        height={40}
+        className="rounded-full w-10 h-10 object-contain"
                 alt=""
               ></Image>
 
@@ -122,7 +123,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
             </Link>
           )}
         </div> */}
-        </div>
+  </nav>
       </Flex>
     </>
   );
