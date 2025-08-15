@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -36,14 +36,26 @@ const LocationMap: React.FC<Props> = ({
     });
   }, []);
 
-  const markerRef = useRef<any>(null);
+  const markerRef = useRef<L.Marker | null>(null);
+
+  const ClickHandler: React.FC = () => {
+    useMapEvents({
+      click(e) {
+        setLatLong({
+          lat: e.latlng.lat.toString(),
+            long: e.latlng.lng.toString(),
+        });
+        setMarkerMoved(true);
+      },
+    });
+    return null;
+  };
 
   const eventHandlers = useMemo(
     () => ({
       dragend() {
         const marker = markerRef.current;
-        if (marker != null) {
-          // console.log(marker.getLatLng());
+        if (marker) {
           const latLong = marker.getLatLng();
           setLatLong({
             lat: latLong.lat.toString(),
@@ -53,7 +65,7 @@ const LocationMap: React.FC<Props> = ({
         }
       },
     }),
-    [],
+    [setLatLong, setMarkerMoved],
   );
 
   return (
@@ -63,6 +75,7 @@ const LocationMap: React.FC<Props> = ({
         zoom={15}
         style={{ height: '100%', width: '100%' }}
       >
+        <ClickHandler />
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker
           position={[latitude, longitude]}
