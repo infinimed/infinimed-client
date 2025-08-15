@@ -44,8 +44,8 @@ export default function Home() {
           <ServiceSliders></ServiceSliders>
         </div>
 
-        <div className="hidden lg:flex mt-[7vh]">
-          <div className="w-[20vw] fixed h-full border-gray-300 border-r-[1px]">
+        <div className="hidden lg:flex pt-[70px]">
+          <div className="w-[20vw] fixed top-[66px] bottom-0 border-gray-300 border-r-[1px] overflow-y-auto">
             <SideNavbar></SideNavbar>
           </div>
           <div className="w-[70vw] ml-[25vw]">

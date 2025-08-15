@@ -14,8 +14,8 @@ type NavbarTopProps = {
 
 const NavbarTop: React.FC<NavbarTopProps> = () => {
   return (
-    <div className="hidden lg:block fixed top-0 w-full p-2 bg-white z-10">
-      <Flex justify={'between'} align={'center'}>
+    <div className="hidden lg:block fixed top-0 left-0 w-full h-[66px] px-4 bg-white z-20 shadow-sm">
+      <Flex className="h-full" justify={'between'} align={'center'}>
         <Link href={'/'}>
           <Image
             src="https://res.cloudinary.com/dgayarw1f/image/upload/v1730292454/dvhuah5tzhgysxl2lxds.png"
@@ -34,7 +34,7 @@ const NavbarTop: React.FC<NavbarTopProps> = () => {
         <SelectArea></SelectArea>
 
         <SearchBarSpecific></SearchBarSpecific>
-        <Flex className="w-[12vw]" justify={'between'} align={'center'}>
+  <Flex className="w-[12vw]" justify={'between'} align={'center'}>
           <NotificationIcon></NotificationIcon>
           <CartIconTopbar></CartIconTopbar>
           <ProfilePicture></ProfilePicture>
