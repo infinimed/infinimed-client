@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type ICart = {
   items: {
     [key: string]: (IMedicine | IAppointment) & {
+      id: string;
       quantity: number;
       type: 'appointment' | 'medicine';
     };
@@ -22,16 +23,27 @@ const addToCartSlice = createSlice({
       state: ICart,
       action: PayloadAction<
         (IMedicine | IAppointment) & {
+          id: string;
           quantity: number;
           type: 'appointment' | 'medicine';
         }
       >,
     ) {
-      if (state.items && state.items[action.payload.id]?.quantity) {
-        state.items[action.payload.id].quantity =
-          state.items[action?.payload?.id].quantity + action.payload.quantity;
-      } else {
-        state.items[action.payload.id] = { ...action.payload, quantity: 1 };
+      const id = action.payload.id;
+      const delta = action.payload.quantity;
+
+      if (state.items[id]?.quantity !== undefined) {
+        const newQty = state.items[id].quantity + delta;
+        if (newQty <= 0) {
+          delete state.items[id];
+        } else {
+          state.items[id].quantity = newQty;
+        }
+        return;
+      }
+
+      if (delta > 0) {
+        state.items[id] = { ...action.payload, quantity: delta };
       }
     },
     clearCart(state: ICart) {
