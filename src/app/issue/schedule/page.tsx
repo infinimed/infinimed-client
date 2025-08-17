@@ -30,6 +30,8 @@ export default function SchedulePage() {
   const issue_id = searchParams.get('issue_id');
   const service_name = searchParams.get('service_name');
   const price = searchParams.get('price');
+  const sub_category_name = searchParams.get('sub_category_name');
+  const category_name = searchParams.get('category_name');
 
   const dispatch = useAppDispatch();
 
@@ -138,6 +140,8 @@ export default function SchedulePage() {
         type: 'appointment',
         price: parseInt(price ? (price as string) : '0'),
         service_name: service_name as string,
+        sub_category_name: sub_category_name || undefined,
+        category_name: category_name || undefined,
       }),
     );
     router.push('/cart');

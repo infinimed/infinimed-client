@@ -59,7 +59,7 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
                 className="border-2 p-2 rounded-md mb-2 mr-2 shadow-md w-[98%]"
               >
                 <Link
-                  href={`/issue/schedule?issue_id=${item?._id}&service_name=${item?.service_id?.name}%20${item?.service_id?.sub_category?.name}`}
+                  href={`/issue/schedule?issue_id=${item._id}&service_name=${item.service_id.name}&sub_category_name=${item.service_id.sub_category.name}&category_name=${item.service_id.sub_category.category_id?.name || ''}`}
                 >
                   <Flex
                     direction={'column'}

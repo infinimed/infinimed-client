@@ -8,6 +8,8 @@ export type IAppointment = {
   price: number;
   image?: string;
   service_name?: string;
+  category_name?: string; // populated for cart display
+  sub_category_name?: string; // populated for cart display
   address?: {
     detail: string;
     lat: number;

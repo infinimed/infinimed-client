@@ -20,6 +20,10 @@ export type IIssueDetails = {
     sub_category: {
       _id: string;
       name: string;
+      category_id?: {
+        _id: string;
+        name: string;
+      };
     };
   };
   assets: string[];

@@ -94,6 +94,13 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     alt="cart-item"
                   ></Image>
                   <div className="ml-2">
+                    <p className="font-poppins font-semibold">
+                      {(item as IAppointment).category_name || 'Category'}
+                    </p>
+                    <p className="font-poppins">
+                      {(item as IAppointment).sub_category_name ||
+                        'Sub Category'}
+                    </p>
                     <p className="font-poppins">
                       {(item as IAppointment).service_name}
                     </p>

@@ -20,6 +20,8 @@ export default function Docs() {
   const dob = searchParams.get('dob');
   const gender = searchParams.get('gender');
   const price = searchParams.get('price');
+  const sub_category_name = searchParams.get('sub_category_name');
+  const category_name = searchParams.get('category_name');
 
   const [successfullyUploaded, setSuccessfullyUploaded] =
     useState<boolean>(false);
@@ -41,7 +43,7 @@ export default function Docs() {
 
     setSuccessfullyUploaded(true);
     router.push(
-      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}`,
+      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name}&category_name=${category_name}`,
     );
   }
 
@@ -62,7 +64,7 @@ export default function Docs() {
 
     setSuccessfullyUploaded(true);
     router.push(
-      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}`,
+      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name}&category_name=${category_name}`,
     );
   }
 
