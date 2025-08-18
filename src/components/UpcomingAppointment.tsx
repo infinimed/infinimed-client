@@ -72,7 +72,7 @@ const UpcomingAppointment: React.FC<PastOrdersListProps> = () => {
                           Date and Time
                         </span>{' '}
                         <br />
-                        {new Date(item?.apt_time).toLocaleString()}
+                        {new Date(item?.apt_time).toLocaleString('en-GB')}
                         <br />
                       </p>
                     </div>

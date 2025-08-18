@@ -57,7 +57,7 @@ const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
                           {item?.message.split('-')[1]}
                         </p>
                         <p className="flex font-poppins justify-end text-sm text-gray-400">
-                          {dateTime.toLocaleString()}
+                          {dateTime.toLocaleString('en-GB')}
                           <br />
                         </p>
                       </div>
