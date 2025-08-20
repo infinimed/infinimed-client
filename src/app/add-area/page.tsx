@@ -6,7 +6,7 @@ import { Box } from '@radix-ui/themes';
 import { useAppDispatch } from '@/lib/hooks';
 import { setArea } from '@/lib/features/area/area';
 import { useRouter } from 'next/navigation';
-import SavedAreas from '@/components/SavedAreas';
+// import SavedAreas from '@/components/SavedAreas';
 import dynamic from 'next/dynamic';
 
 const LocationMap = dynamic(() => import('@/components/MapView'), {
@@ -210,7 +210,7 @@ const Page: React.FC = () => {
           </Box>
         </>
       )}
-      <SavedAreas />
+      {/* <SavedAreas /> */}
     </div>
   );
 };
