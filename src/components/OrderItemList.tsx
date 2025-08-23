@@ -9,18 +9,37 @@ import { IMedicine } from '@/interfaces/IMedicine';
 import { IAppointment } from '@/interfaces/IAppointment';
 import { addToCart } from '@/lib/features/cart/addToCart';
 
+type MedicineCartItem = IMedicine & {
+  id: string;
+  quantity: number;
+  type: 'medicine';
+  cartKey?: string;
+};
+
+type AppointmentCartItem = IAppointment & {
+  id: string;
+  quantity: number;
+  type: 'appointment';
+  cartKey?: string;
+};
+
+type CartItem = MedicineCartItem | AppointmentCartItem;
+
 type OrderItemListProps = {
   children?: string;
 };
 
 const OrderItemList: React.FC<OrderItemListProps> = () => {
-  const cart = useAppSelector((state) => state.addToCart.items);
+  const cart = useAppSelector((state) => state.addToCart.items) as Record<
+    string,
+    CartItem
+  >;
   const dispatch = useAppDispatch();
 
   return (
     <div className="w-full mt-4 ">
       <Box className="">
-        {Object.values(cart).map((item) => {
+  {Object.values(cart).map((item: CartItem) => {
           if (item.type === 'medicine') {
             return (
               <Flex
@@ -28,7 +47,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                 width={'full'}
                 justify={'between'}
                 className="border-2 p-2 rounded-md mb-2 shadow-md"
-                key={item.id}
+                key={item.cartKey ?? item.id}
               >
                 <Flex>
                   <Image
@@ -58,7 +77,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                         id: item.id,
                         quantity: 1,
                         type: 'medicine',
-                      }),
+                      } as MedicineCartItem),
                     )
                   }
                   decrement={() =>
@@ -68,10 +87,10 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                         id: item.id,
                         quantity: -1,
                         type: 'medicine',
-                      }),
+                      } as MedicineCartItem),
                     )
                   }
-                ></Counter>
+                />
               </Flex>
             );
           }
@@ -82,7 +101,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                 width={'full'}
                 justify={'between'}
                 className="border-2 p-2 rounded-md mb-2 shadow-md"
-                key={item.id}
+                key={item.cartKey ?? item.id}
               >
                 <Flex>
                   <Image
@@ -113,7 +132,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     </p>
                   </div>
                 </Flex>
-                {/* <Counter quantity={item.quantity}></Counter> */}
+                {/* Counter for appointments intentionally disabled; to enable, dispatch with the same cartKey */}
               </Flex>
             );
           }
