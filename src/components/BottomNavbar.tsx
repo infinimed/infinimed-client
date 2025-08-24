@@ -56,19 +56,21 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
               </SunThroughWindowIcon>
             </Link>
           </div>
-      <div className="flex-1 flex justify-center">
-            <Link href="/past-orders">
-              <Image
-                src="https://res.cloudinary.com/american-international-university-bangladesh/image/upload/v1746971248/Neomorphic_Icon_set_002-06_gcdds7.svg"
-        width={40}
-        height={40}
-        className="rounded-full w-10 h-10 object-contain"
-                alt=""
-              ></Image>
+      {isLoggedIn && (
+        <div className="flex-1 flex justify-center">
+          <Link href="/past-orders">
+            <Image
+              src="https://res.cloudinary.com/american-international-university-bangladesh/image/upload/v1746971248/Neomorphic_Icon_set_002-06_gcdds7.svg"
+              width={40}
+              height={40}
+              className="rounded-full w-10 h-10 object-contain"
+              alt=""
+            />
 
-              <p></p>
-            </Link>
-          </div>
+            <p></p>
+          </Link>
+        </div>
+      )}
           {/* <div className="w-1/5 p-2 relative">
           <Link href={'/cart'}>
        
