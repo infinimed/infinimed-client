@@ -12,14 +12,35 @@ type PastOrdersListProps = {
 };
 
 const PastOrdersList: React.FC<PastOrdersListProps> = () => {
-  const [orders, setOrders] = useState([]);
-  const [page, setPage] = useState(1);
+  const [orders, setOrders] = useState<IPastOrder[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+
   useEffect(() => {
-    setPage(1);
-    getPastOrders(page)
-      .then((res) => res.json())
+    const pageToLoad = 1;
+    setPage(pageToLoad);
+    setLoading(true);
+    setError('');
+
+    getPastOrders(pageToLoad)
       .then((res) => {
-        setOrders(res);
+        if (!res.ok) throw new Error(`Failed to fetch orders: ${res.status}`);
+        return res.json();
+      })
+      .then((payload) => {
+        let list: IPastOrder[] = [];
+        if (Array.isArray(payload)) list = payload as IPastOrder[];
+        else if (Array.isArray(payload?.data)) list = payload.data as IPastOrder[];
+        else if (Array.isArray(payload?.orders)) list = payload.orders as IPastOrder[];
+        else list = [];
+        setOrders(list);
+        setLoading(false);
+      })
+      .catch((e: unknown) => {
+        setError(e instanceof Error ? e.message : 'Unknown error');
+        setOrders([]);
+        setLoading(false);
       });
   }, []);
 
@@ -27,41 +48,49 @@ const PastOrdersList: React.FC<PastOrdersListProps> = () => {
     <div className="w-full mt-4 ">
       <h2 className="font-poppins text-2xl mb-2 font-bold">Orders</h2>
       <Box className="">
-        {Object.values(orders).map((item: IPastOrder) => {
-          return (
-            <Link key={item._id} href={`/past-orders/order/${item._id}`}>
-              <Flex
-                align={'center'}
-                width={'full'}
-                justify={'between'}
-                className="border-2 p-2 rounded-md mb-2 shadow-md"
-                key={item?._id}
-              >
-                <Flex>
-                  <Image
-                    src={
-                      'https://res.cloudinary.com/dsuiwxwkg/image/upload/v1727873184/medicine_883407_jolgrg.png'
-                    }
-                    width={50}
-                    height={50}
-                    alt="cart-item"
-                    className="w-auto h-fit"
-                  ></Image>
-                  <div className="ml-2">
-                    <p className="font-poppins font-bold">Pharamacy</p>
-                    <p className="font-poppins">
-                      {item?.medicine_name}...<Link href={``}>See Details</Link>
-                    </p>
+        {loading && <p className="font-poppins">Loading orders…</p>}
+        {!loading && error && (
+          <p className="font-poppins text-red-600">{error}</p>
+        )}
+        {!loading && !error && orders.length === 0 && (
+          <p className="font-poppins text-gray-600">No orders yet.</p>
+        )}
+
+        {!loading && !error &&
+          orders.map((item) => {
+            return (
+              <Link key={item._id} href={`/past-orders/order/${item._id}`}>
+                <Flex
+                  align={'center'}
+                  width={'full'}
+                  justify={'between'}
+                  className="border-2 p-2 rounded-md mb-2 shadow-md"
+                >
+                  <Flex>
+                    <Image
+                      src={
+                        'https://res.cloudinary.com/dsuiwxwkg/image/upload/v1727873184/medicine_883407_jolgrg.png'
+                      }
+                      width={50}
+                      height={50}
+                      alt="cart-item"
+                      className="w-auto h-fit"
+                    ></Image>
+                    <div className="ml-2">
+                      <p className="font-poppins font-bold">Pharmacy</p>
+                      <p className="font-poppins">
+                        {item?.medicine_name}
+                      </p>
+                    </div>
+                  </Flex>
+
+                  <div className=" rounded-full bg-[#283b77] lg:py-0.5 lg:px-2.5 px-1 border border-transparent text-base text-white font-poppins transition-all shadow-lg text-center">
+                    {item?.status}
                   </div>
                 </Flex>
-
-                <div className=" rounded-full bg-[#283b77] lg:py-0.5 lg:px-2.5 px-1 border border-transparent text-base text-white font-poppins transition-all shadow-lg text-center">
-                  {item?.status}
-                </div>
-              </Flex>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })}
       </Box>
     </div>
   );
