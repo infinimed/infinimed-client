@@ -132,7 +132,24 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     </p>
                   </div>
                 </Flex>
-                {/* Counter for appointments intentionally disabled; to enable, dispatch with the same cartKey */}
+                {/* Reuse Counter component in decrement-only mode for appointments */}
+                <div className="max-w-xs">
+                  <Counter
+                    quantity={item.quantity}
+                    hideIncrement
+                    decrement={() =>
+                      dispatch(
+                        addToCart({
+                          ...(item as AppointmentCartItem),
+                          id: item.id,
+                          cartKey: item.cartKey,
+                          quantity: -1,
+                          type: 'appointment',
+                        } as AppointmentCartItem),
+                      )
+                    }
+                  />
+                </div>
               </Flex>
             );
           }

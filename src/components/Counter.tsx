@@ -3,14 +3,17 @@ import React from 'react';
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type CounterProps = {
   quantity: number;
-  increment: () => void;
+  increment?: () => void;
   decrement: () => void;
+  /** when true, hide the increment button (decrement-only mode) */
+  hideIncrement?: boolean;
 };
 
 const Counter: React.FC<CounterProps> = ({
   quantity,
   increment,
   decrement,
+  hideIncrement = false,
 }) => {
   return (
     <form className="max-w-xs ">
@@ -20,7 +23,11 @@ const Counter: React.FC<CounterProps> = ({
           id="decrement-button"
           onClick={decrement}
           data-input-counter-decrement="quantity-input"
-          className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+          className={
+            hideIncrement
+              ? 'bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
+              : 'bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none'
+          }
         >
           <svg
             className="w-3 h-3 text-gray-900 dark:text-white"
@@ -48,13 +55,14 @@ const Counter: React.FC<CounterProps> = ({
           required
           value={quantity}
         />
-        <button
-          type="button"
-          id="increment-button"
-          onClick={increment}
-          data-input-counter-increment="quantity-input"
-          className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
-        >
+        {!hideIncrement && increment && (
+          <button
+            type="button"
+            id="increment-button"
+            onClick={increment}
+            data-input-counter-increment="quantity-input"
+            className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+          >
           <svg
             className="w-3 h-3 text-gray-900 dark:text-white"
             aria-hidden="true"
@@ -70,7 +78,8 @@ const Counter: React.FC<CounterProps> = ({
               d="M9 1v16M1 9h16"
             />
           </svg>
-        </button>
+          </button>
+        )}
       </div>
     </form>
   );
