@@ -37,7 +37,9 @@ const OTPPage: React.FC = () => {
                   `/issue/docs?service_id=${service_id}&service_name=${service_name}&price=${price}`,
                 );
               } else if (from_cart !== null) {
-                router.push(`/cart`);
+                // Previously redirected to cart when login originated from cart.
+                // Change: Route to homepage instead after successful login.
+                router.push(`/`);
               } else {
                 router.push(`/`);
               }
