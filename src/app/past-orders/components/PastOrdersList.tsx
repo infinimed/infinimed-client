@@ -13,13 +13,11 @@ type PastOrdersListProps = {
 
 const PastOrdersList: React.FC<PastOrdersListProps> = () => {
   const [orders, setOrders] = useState<IPastOrder[]>([]);
-  const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    const pageToLoad = 1;
-    setPage(pageToLoad);
+  const pageToLoad = 1;
     setLoading(true);
     setError('');
 
