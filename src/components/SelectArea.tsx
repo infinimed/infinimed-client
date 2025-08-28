@@ -64,7 +64,7 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
         async (position) => {
           const { latitude, longitude } = position.coords;
           const response = await fetch(
-            `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_6661bfd56b3a2520c41a8fc45280262e0b724386659ee30db35e35bb5cd498b6&longitude=${longitude}&latitude=${latitude}&address=true&area=true`,
+            `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283&longitude=${longitude}&latitude=${latitude}&address=true&area=true`,
           );
           const data = await response.json();
 

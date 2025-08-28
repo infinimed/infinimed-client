@@ -31,7 +31,7 @@ const Page: React.FC = () => {
   );
 
   const API_KEY =
-    'bkoi_6661bfd56b3a2520c41a8fc45280262e0b724386659ee30db35e35bb5cd498b6';
+    'bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283';
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   // Debounce handler
@@ -90,7 +90,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (latLong?.lat !== '' && latLong?.long !== '' && markerMoved) {
       fetch(
-        `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_6661bfd56b3a2520c41a8fc45280262e0b724386659ee30db35e35bb5cd498b6&longitude=${latLong?.long}&latitude=${latLong?.lat}&address=true&area=true`,
+        `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283&longitude=${latLong?.long}&latitude=${latLong?.lat}&address=true&area=true`,
       )
         .then((res) => res.json())
         .then((res) => {
