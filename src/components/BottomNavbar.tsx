@@ -56,7 +56,6 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
               </SunThroughWindowIcon>
             </Link>
           </div>
-      {isLoggedIn && (
         <div className="flex-1 flex justify-center">
           <Link href="/past-orders">
             <Image
@@ -70,7 +69,6 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
             <p></p>
           </Link>
         </div>
-      )}
           {/* <div className="w-1/5 p-2 relative">
           <Link href={'/cart'}>
        
