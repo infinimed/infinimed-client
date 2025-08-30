@@ -17,9 +17,15 @@ const PastOrdersList: React.FC<PastOrdersListProps> = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-  const pageToLoad = 1;
+    const pageToLoad = 1;
     setLoading(true);
     setError('');
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     getPastOrders(pageToLoad)
       .then((res) => {

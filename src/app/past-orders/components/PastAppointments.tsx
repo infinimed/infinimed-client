@@ -12,14 +12,38 @@ type PastOrdersListProps = {
 };
 
 const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
-  const [orders, setOrders] = useState([]);
-  const [page, setPage] = useState(1);
+  const [appointments, setAppointments] = useState<IPastAppointment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+
   useEffect(() => {
-    setPage(1);
-    getPastAppointments(page)
-      .then((res) => res.json())
+    setLoading(true);
+    setError('');
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    getPastAppointments(1)
       .then((res) => {
-        setOrders(res);
+        if (!res.ok) throw new Error(`Failed to fetch appointments: ${res.status}`);
+        return res.json();
+      })
+      .then((payload) => {
+        let list: IPastAppointment[] = [];
+        if (Array.isArray(payload)) list = payload as IPastAppointment[];
+        else if (Array.isArray(payload?.data)) list = payload.data as IPastAppointment[];
+        else if (Array.isArray(payload?.appointments)) list = payload.appointments as IPastAppointment[];
+        else list = Object.values(payload ?? {}) as IPastAppointment[];
+        setAppointments(list);
+        setLoading(false);
+      })
+      .catch((e: unknown) => {
+        setError(e instanceof Error ? e.message : 'Unknown error');
+        setAppointments([]);
+        setLoading(false);
       });
   }, []);
 
@@ -27,7 +51,15 @@ const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
     <div className="w-full mt-4 ">
       <h2 className="font-poppins text-2xl mb-2 font-bold">Appointments</h2>
       <Box className="">
-        {Object.values(orders).map((item: IPastAppointment) => {
+        {loading && <p className="font-poppins">Loading appointments…</p>}
+        {!loading && error && (
+          <p className="font-poppins text-red-600">{error}</p>
+        )}
+        {!loading && !error && appointments.length === 0 && (
+          <p className="font-poppins text-gray-600">No appointments yet.</p>
+        )}
+
+        {!loading && !error && appointments.map((item: IPastAppointment) => {
           return (
             <Link
               key={item?._id}
