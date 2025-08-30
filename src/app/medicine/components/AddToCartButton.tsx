@@ -2,7 +2,6 @@
 import { IMedicine } from '@/interfaces/IMedicine';
 import { addToCart } from '@/lib/features/cart/addToCart';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Box } from '@radix-ui/themes';
 import React from 'react';
 
 type AddToCartButtonProps = {
@@ -32,32 +31,36 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({ medicine }) => {
   }
 
   return (
-    <div className="fixed bottom-[9vh] w-[96vw] lg:w-[30vw] ">
+    <div className="fixed bottom-[12vh] left-1/2 transform -translate-x-1/2 w-[90vw] max-w-md lg:w-[28vw] lg:max-w-sm">
       {cart[medicine._id]?.quantity ? (
-        <div className="w-full inline-flex items-center justify-between">
-          <div
+        <div className="flex items-center justify-center gap-4 bg-white rounded-2xl shadow-lg p-4 border border-gray-100">
+          <button
             onClick={() => handleAddToCart(-1)}
-            className="w-10 px-3 py-2 text-lg font-poppins text-center text-white bg-primary rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-12 h-12 flex items-center justify-center text-xl font-bold text-white bg-primary rounded-full hover:bg-blue-600 active:scale-95 transition-all duration-150 shadow-md"
           >
-            -
-          </div>
-          <div className="text-lg font-poppins text-white bg-primary rounded-lg w-10 px-3 py-2 text-center">
+            −
+          </button>
+          
+          <div className="flex items-center justify-center min-w-[60px] px-4 py-2 text-lg font-semibold text-primary bg-gray-50 rounded-xl border border-gray-200">
             {cart[medicine._id as string].quantity}
           </div>
 
-          <div
+          <button
             onClick={() => handleAddToCart(1)}
-            className="w-10 px-3 py-2 text-lg font-poppins text-center text-white bg-primary rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="w-12 h-12 flex items-center justify-center text-xl font-bold text-white bg-primary rounded-full hover:bg-blue-600 active:scale-95 transition-all duration-150 shadow-md"
           >
             +
-          </div>
+          </button>
         </div>
       ) : (
-        <Box onClick={() => handleAddToCart(1)} className="">
-          <Box className="bg-white text-primary border-solid border-2 border-primary font-poppins font-bold text-xl p-3 text-center rounded-md mb-2 cursor-pointer">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100">
+          <button 
+            onClick={() => handleAddToCart(1)} 
+            className="w-full bg-primary text-white font-poppins font-bold text-xl py-4 rounded-2xl hover:bg-blue-600 active:scale-[0.98] transition-all duration-150 shadow-md"
+          >
             Add to Cart
-          </Box>
-        </Box>
+          </button>
+        </div>
       )}
     </div>
   );
