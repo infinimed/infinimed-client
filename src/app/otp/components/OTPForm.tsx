@@ -21,20 +21,74 @@ const OTPForm: React.FC<OTPFormProps> = ({
 }) => {
   const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const hiddenOtpRef = useRef<HTMLInputElement | null>(null);
+  const isIOS = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const [isPasting, setIsPasting] = useState(false);
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
-  }, []);
-
-  const handleChange = (value: string, index: number) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    if (value !== '' && index < length - 1) {
-      inputRefs.current[index + 1]?.focus();
+    // For iOS, focusing a one-time-code input can help trigger SMS AutoFill
+    if (isIOS) {
+      setTimeout(() => hiddenOtpRef.current?.focus(), 250);
     }
-  };
+  }, [isIOS]);
+
+  // Type helpers for Web OTP API without adding global ambient types
+  type OTPCredential = { code?: string };
+
+  // Callback to apply full code into segmented inputs and optionally auto-submit
+  const applyCodeToInputs = useCallback(
+    (code: string) => {
+      const clean = code.replace(/\D/g, '').slice(0, length);
+      const filled = Array.from({ length }, (_, i) => clean[i] ?? '');
+      setOtp(filled);
+      inputRefs.current[Math.min(clean.length, length - 1)]?.focus();
+      if (clean.length === length) {
+        onSubmit(clean);
+      }
+    },
+    [length, onSubmit],
+  );
+
+  // Attempt auto-retrieval via Web OTP API on supported browsers (Android Chrome, HTTPS)
+  useEffect(() => {
+    // Guard: only run in browser and when the API is present
+    if (typeof window === 'undefined') return;
+    const webOtpAvailable =
+      typeof (window as unknown as { OTPCredential?: unknown }).OTPCredential !== 'undefined';
+    const credContainer = (navigator as Navigator & { credentials?: CredentialsContainer })
+      .credentials;
+    if (!webOtpAvailable || !credContainer?.get) return;
+
+    const ac = new AbortController();
+    const timeoutId = window.setTimeout(() => ac.abort(), 60_000); // abort after 60s
+
+    const getWithOtp = credContainer.get as unknown as (
+      options: { otp: { transport: ('sms')[] }; signal: AbortSignal },
+    ) => Promise<OTPCredential | null>;
+
+    getWithOtp({ otp: { transport: ['sms'] }, signal: ac.signal })
+      .then((cred: OTPCredential | null) => {
+        const code = cred?.code?.replace(/\D/g, '') || '';
+        if (code) {
+          applyCodeToInputs(code);
+        }
+      })
+      .catch(() => {
+        // Silently ignore; user can type manually
+      })
+      .finally(() => {
+        window.clearTimeout(timeoutId);
+        ac.abort();
+      });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      ac.abort();
+    };
+  }, [length, applyCodeToInputs]);
+
+  // moved below distributeAndFocus
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -62,12 +116,7 @@ const OTPForm: React.FC<OTPFormProps> = ({
       .getData('text/plain')
       .replace(/\D/g, '')
       .slice(0, length);
-    const newOtp = [...otp];
-    pastedData.split('').forEach((char, index) => {
-      newOtp[index] = char;
-    });
-    setOtp(newOtp);
-    inputRefs.current[Math.min(pastedData.length, length - 1)]?.focus();
+  distributeAndFocus(pastedData, 0);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,9 +134,65 @@ const OTPForm: React.FC<OTPFormProps> = ({
     [],
   );
 
+  // Helpers
+  const distributeAndFocus = useCallback(
+    (digits: string, startIndex: number) => {
+      if (!digits) return;
+      const clean = digits.replace(/\D/g, '').slice(0, length - startIndex);
+      setOtp((prev) => {
+        const newOtp = [...prev];
+        for (let i = 0; i < clean.length; i += 1) {
+          const target = startIndex + i;
+          if (target < length) newOtp[target] = clean[i] ?? '';
+        }
+        return newOtp;
+      });
+      const focusTo = Math.min(startIndex + clean.length, length - 1);
+      inputRefs.current[focusTo]?.focus();
+    },
+    [length],
+  );
+
+  const handleChange = useCallback(
+    (value: string, index: number) => {
+      const digits = value.replace(/\D/g, '');
+      if (digits.length <= 1) {
+        setOtp((prev) => {
+          const next = [...prev];
+          next[index] = digits;
+          return next;
+        });
+        if (digits !== '' && index < length - 1) {
+          inputRefs.current[index + 1]?.focus();
+        }
+        return;
+      }
+
+      // If multiple digits are inserted (iOS SMS AutoFill or manual paste into one box), distribute from current index
+      distributeAndFocus(digits, index);
+    },
+    [length, distributeAndFocus],
+  );
+
+  // applyCodeToInputs defined above with useCallback
+
   return (
     <Form.Root onSubmit={handleSubmit}>
-      <div className="flex justify-between mb-6">
+      {/* Hidden unified input to improve iOS AutoFill behavior */}
+      <input
+        ref={hiddenOtpRef}
+        type="text"
+        inputMode="numeric"
+        autoComplete="one-time-code"
+        className="absolute -left-[9999px] -top-[9999px] h-0 w-0 opacity-0 pointer-events-none"
+        aria-hidden="true"
+        tabIndex={-1}
+        onChange={(e) => {
+          const digits = e.currentTarget.value.replace(/\D/g, '').slice(0, length);
+          if (digits) applyCodeToInputs(digits);
+        }}
+      />
+      <div className="flex justify-between mb-3">
         {otp.map((data, index) => (
           <OTPInput
             key={index}
@@ -99,6 +204,35 @@ const OTPForm: React.FC<OTPFormProps> = ({
             ref={inputRefCallback(index)}
           />
         ))}
+      </div>
+      <div className="flex items-center justify-between mb-6 text-sm">
+        <span className="text-gray-500">Enter the 6-digit code</span>
+        {typeof navigator !== 'undefined' && navigator.clipboard && (
+          <button
+            type="button"
+            className="text-indigo-700 hover:text-indigo-900 disabled:opacity-50"
+            onClick={async () => {
+              try {
+                setIsPasting(true);
+                const text = await navigator.clipboard.readText();
+                const digits = text.replace(/\D/g, '').slice(0, length);
+                if (digits.length === length) {
+                  applyCodeToInputs(digits);
+                } else if (digits.length > 0) {
+                  distributeAndFocus(digits, 0);
+                }
+              } catch (err) {
+                console.error('Clipboard read error:', err);
+              } finally {
+                setIsPasting(false);
+              }
+            }}
+            disabled={isPasting}
+            aria-busy={isPasting}
+          >
+            {isPasting ? 'Pasting…' : 'Paste code'}
+          </button>
+        )}
       </div>
       <div>{error}</div>
       <Form.Submit asChild>

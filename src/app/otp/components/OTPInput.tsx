@@ -13,7 +13,8 @@ const OTPInput = forwardRef<HTMLInputElement, OTPInputProps>(
   ({ value, onChange, onKeyDown, onPaste, index }, ref) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
-      if (newValue === '' || /^\d$/.test(newValue)) {
+      // Allow empty, single digit, or multiple digits (for iOS SMS AutoFill which inserts the whole code)
+      if (newValue === '' || /^\d+$/.test(newValue)) {
         onChange(newValue);
       }
     };
