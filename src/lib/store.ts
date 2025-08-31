@@ -10,6 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import createExpirationTransform from 'redux-persist-transform-expire';
 
 import addToCart from './features/cart/addToCart';
 import changeSearchBarVisibilityState from './features/searchBar/searchBarVisibility';
@@ -29,10 +30,20 @@ const rootReducer = combineReducers({
   medicineSearchResults: setMedicineSearchResults,
 });
 
+// Create an expiration transform - expires cart items after 24 hours
+const expireTransform = createExpirationTransform({
+  expireKey: 'cartExpiration',
+  defaultState: { items: {} }, // Default empty cart state
+  persistedAtKey: '_cartPersistedAt',
+  // 24 hours in seconds
+  expireSeconds: 24 * 60 * 60,
+});
+
 const persistConfig = {
   key: 'infinimed_root',
   storage,
   whitelist: ['addToCart'], // only persist cart slice
+  transforms: [expireTransform], // Apply expiration transform
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
