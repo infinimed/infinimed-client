@@ -5,7 +5,7 @@ declare module 'redux-persist-transform-expire' {
     /** Key to identify the expiration time in the persisted state */
     expireKey?: string;
     /** Default state to return when expired */
-    defaultState?: any;
+    defaultState?: unknown;
     /** Key to store the time when persisted */
     persistedAtKey?: string;
     /** Seconds after which state should expire */
