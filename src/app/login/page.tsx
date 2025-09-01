@@ -9,7 +9,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Image from 'next/image';
 import loader from '@/assets/loader.svg';
-// import greenTick from '@/app/assets/green_tick.png';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -28,28 +27,36 @@ export default function LoginPage() {
     setPhoneNumber(e.currentTarget.value);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (validatePhoneNumber(phoneNumber) !== 'success') {
       setError(() => validatePhoneNumber(phoneNumber));
-    } else {
-      setLoading(true);
-      sendOTP(phoneNumber)
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.result === 'OTP Sent') {
-            router.push(
-              `/otp/${phoneNumber}?service_id=${service_id}&service_name=${service_name}&from_cart=${from_cart}&price=${price}`,
-            );
-          } else {
-            setError(res.result);
-          }
-          // setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setError('server Error');
-          setLoading(false);
-        });
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+    
+    try {
+      const res = await sendOTP(phoneNumber);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        router.push(
+          `/otp/${phoneNumber}?service_id=${service_id}&service_name=${service_name}&from_cart=${from_cart}&price=${price}`,
+        );
+      } else {
+        setError(data.message || 'Failed to send OTP');
+      }
+    } catch (error) {
+      console.error('OTP Error:', error);
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -61,13 +68,15 @@ export default function LoginPage() {
             Enter Phone Number
           </h1>
           <PhoneInput handleChange={handleChange}></PhoneInput>
-          <div>{error}</div>
+          {error && (
+            <div className="text-red-500 text-sm mt-2 mb-2">{error}</div>
+          )}
           <div className="flex flex-col items-end">
             <Button
               className="h-14 text-xl mt-2 w-full bg-indigo-900"
               type="submit"
               onClick={handleSubmit}
-              disabled={loading ? true : false}
+              disabled={loading}
             >
               {loading ? (
                 <Image
@@ -78,7 +87,6 @@ export default function LoginPage() {
               ) : (
                 'Submit'
               )}
-              {error && <>Server Error please try again</>}
             </Button>
           </div>
         </div>

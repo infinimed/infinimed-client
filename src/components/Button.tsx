@@ -6,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type: 'button' | 'submit';
   icon?: React.ReactNode;
   className?: string;
+  loading?: boolean;
 }
 
 const Button = ({
@@ -15,6 +16,8 @@ const Button = ({
   icon,
   children = '',
   className,
+  loading = false,
+  disabled,
   ...props
 }: ButtonProps) => {
   const sizeClasses = {
@@ -35,15 +38,17 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`${className} rounded-[12px] h-[47px] text-white border font-medium shadow-sm transition-all duration-300 ease-in-out focus:outline-none flex items-center ${sizeClasses[size]} ${variantClasses[variant]} `}
+      className={`${className} rounded-[12px] h-[47px] text-white border font-medium shadow-sm transition-all duration-300 ease-in-out focus:outline-none flex items-center ${sizeClasses[size]} ${variantClasses[variant]} ${loading || disabled ? 'opacity-70 cursor-not-allowed' : ''}`}
+      disabled={loading || disabled}
+      aria-busy={loading}
       {...props}
     >
-      {icon && (
+      {icon && !loading && (
         <span className={`mr-2 ${size === 'block' ? 'text-white' : ''}`}>
           {icon}
         </span>
       )}
-      <span className="text-xl px-3 py-4  flex-1 text-center whitespace-nowrap">
+      <span className="text-xl px-3 py-4 flex-1 text-center whitespace-nowrap">
         {children}
       </span>
     </button>

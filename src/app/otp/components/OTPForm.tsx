@@ -33,9 +33,6 @@ const OTPForm: React.FC<OTPFormProps> = ({
     }
   }, [isIOS]);
 
-  // Type helpers for Web OTP API without adding global ambient types
-  type OTPCredential = { code?: string };
-
   // Callback to apply full code into segmented inputs and optionally auto-submit
   const applyCodeToInputs = useCallback(
     (code: string) => {
@@ -54,34 +51,40 @@ const OTPForm: React.FC<OTPFormProps> = ({
   useEffect(() => {
     // Guard: only run in browser and when the API is present
     if (typeof window === 'undefined') return;
-    const webOtpAvailable =
-      typeof (window as unknown as { OTPCredential?: unknown }).OTPCredential !== 'undefined';
-    const credContainer = (navigator as Navigator & { credentials?: CredentialsContainer })
-      .credentials;
-    if (!webOtpAvailable || !credContainer?.get) return;
-
+    
+    // Check if Web OTP API is available
+    if (!('OTPCredential' in window)) return;
+    
     const ac = new AbortController();
     const timeoutId = window.setTimeout(() => ac.abort(), 60_000); // abort after 60s
-
-    const getWithOtp = credContainer.get as unknown as (
-      options: { otp: { transport: ('sms')[] }; signal: AbortSignal },
-    ) => Promise<OTPCredential | null>;
-
-    getWithOtp({ otp: { transport: ['sms'] }, signal: ac.signal })
-      .then((cred: OTPCredential | null) => {
-        const code = cred?.code?.replace(/\D/g, '') || '';
+    
+    // Wrapper for the Web OTP API
+    async function getOTPCode() {
+      try {
+        // Use casting to work with the experimental API
+        const getCredential = navigator.credentials.get as (options: {
+          otp: { transport: string[] };
+          signal: AbortSignal;
+        }) => Promise<{ code: string } | null>;
+        
+        const credential = await getCredential({
+          otp: { transport: ['sms'] },
+          signal: ac.signal,
+        });
+        
+        const code = credential?.code || '';
         if (code) {
           applyCodeToInputs(code);
         }
-      })
-      .catch(() => {
-        // Silently ignore; user can type manually
-      })
-      .finally(() => {
-        window.clearTimeout(timeoutId);
-        ac.abort();
-      });
-
+      } catch (err) {
+        // Silent error handling - let users input manually
+        console.log('Web OTP API error (non-critical):', err);
+      }
+    }
+    
+    // Start the OTP retrieval process
+    getOTPCode();
+    
     return () => {
       window.clearTimeout(timeoutId);
       ac.abort();
@@ -178,12 +181,14 @@ const OTPForm: React.FC<OTPFormProps> = ({
 
   return (
     <Form.Root onSubmit={handleSubmit}>
-      {/* Hidden unified input to improve iOS AutoFill behavior */}
+      {/* Hidden unified input for SMS AutoFill (iOS) and Web OTP API (Android) */}
       <input
         ref={hiddenOtpRef}
         type="text"
         inputMode="numeric"
         autoComplete="one-time-code"
+        pattern="[0-9]*"
+        enterKeyHint="done"
         className="absolute -left-[9999px] -top-[9999px] h-0 w-0 opacity-0 pointer-events-none"
         aria-hidden="true"
         tabIndex={-1}
@@ -234,23 +239,27 @@ const OTPForm: React.FC<OTPFormProps> = ({
           </button>
         )}
       </div>
-      <div>{error}</div>
+      {error && (
+        <div className="mb-4 text-sm text-red-500 font-medium">{error}</div>
+      )}
       <Form.Submit asChild>
         <Button
           className="flex w-full bg-indigo-900 text-white py-2 rounded-lg hover:bg-blue-600 transition-colors justify-center"
           type="submit"
-          disabled={loading ? true : false}
+          disabled={loading || otp.some(digit => !digit)}
+          loading={loading}
         >
           {loading ? (
             <Image
               className="w-[2rem] h-[2rem] text-white"
               src={loader}
               alt="loader"
+              width={32}
+              height={32}
             />
           ) : (
-            <p>Submit</p>
+            <p>Verify Code</p>
           )}
-          {error && <>Server Error please try again</>}
         </Button>
       </Form.Submit>
     </Form.Root>
