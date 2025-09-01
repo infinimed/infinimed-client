@@ -75,9 +75,9 @@ const Profile: React.FC<profileProps> = () => {
             justify={'start'}
             className="bg-indigo-900 rounded-2xl pt-[10vh] lg:pt-[5vh] h-[80vh] lg:h-[50vh]"
           >
-            {/* <Text as="p" className="lg:mb-[3vh] lg:text-white lg:font-bold">
-              {`${user?.first_name} ${user?.last_name}${user?.date_of_birth ? `,${user?.date_of_birth}` : ''}`}
-            </Text> */}
+            <Text as="p" className="text-white font-bold lg:mb-[3vh]">
+              {`${user?.first_name} ${user?.last_name}`}
+            </Text>
             <Tabs.Root
               className="flex flex-col w-[300px] shadow-[0_2px_10px] shadow-blackA2"
               defaultValue="tab1"
