@@ -39,7 +39,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
   return (
     <div className="w-full mt-4 ">
       <Box className="">
-  {Object.values(cart).map((item: CartItem) => {
+        {Object.values(cart).map((item: CartItem) => {
           if (item.type === 'medicine') {
             return (
               <Flex
@@ -132,11 +132,20 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     </p>
                   </div>
                 </Flex>
-                {/* Reuse Counter component in decrement-only mode for appointments */}
                 <div className="max-w-xs">
                   <Counter
                     quantity={item.quantity}
-                    hideIncrement
+                    increment={() =>
+                      dispatch(
+                        addToCart({
+                          ...(item as AppointmentCartItem),
+                          id: item.id,
+                          cartKey: item.cartKey,
+                          quantity: 1,
+                          type: 'appointment',
+                        } as AppointmentCartItem),
+                      )
+                    }
                     decrement={() =>
                       dispatch(
                         addToCart({
@@ -190,10 +199,12 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
           {' '}
           <p className="font-poppins font-bold text-gray-400">Vat (15%)</p>
           <p className="font-poppins font-bold">
-            {(Object.values(cart).reduce(
-              (acc, curr) => acc + curr.quantity * curr.price,
-              0,
-            ) * 0.15).toFixed(2)}
+            {(
+              Object.values(cart).reduce(
+                (acc, curr) => acc + curr.quantity * curr.price,
+                0,
+              ) * 0.15
+            ).toFixed(2)}
             Tk
           </p>
         </Flex>

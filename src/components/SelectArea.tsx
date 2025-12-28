@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { MouseEventHandler, useEffect, useState } from 'react';
+import { config } from '@/config';
 
 type SelectAreaProps = {
   children?: string;
@@ -64,7 +65,7 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
         async (position) => {
           const { latitude, longitude } = position.coords;
           const response = await fetch(
-            `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283&longitude=${longitude}&latitude=${latitude}&address=true&area=true`,
+            `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=${config.barikoiApiKey}&longitude=${longitude}&latitude=${latitude}&address=true&area=true`,
           );
           const data = await response.json();
 

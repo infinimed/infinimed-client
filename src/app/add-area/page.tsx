@@ -8,6 +8,7 @@ import { setArea } from '@/lib/features/area/area';
 import { useRouter } from 'next/navigation';
 // import SavedAreas from '@/components/SavedAreas';
 import dynamic from 'next/dynamic';
+import { config } from '@/config';
 
 const LocationMap = dynamic(() => import('@/components/MapView'), {
   loading: () => <p>loading...</p>,
@@ -30,8 +31,7 @@ const Page: React.FC = () => {
     null,
   );
 
-  const API_KEY =
-    'bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283';
+  const API_KEY = config.barikoiApiKey;
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   // Debounce handler
@@ -90,7 +90,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     if (latLong?.lat !== '' && latLong?.long !== '' && markerMoved) {
       fetch(
-        `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=bkoi_c357a88b8391dd7525f57b69b97bfe07c01e244c25591312a047da14c0838283&longitude=${latLong?.long}&latitude=${latLong?.lat}&address=true&area=true`,
+        `https://barikoi.xyz/v2/api/search/reverse/geocode?api_key=${API_KEY}&longitude=${latLong?.long}&latitude=${latLong?.lat}&address=true&area=true`,
       )
         .then((res) => res.json())
         .then((res) => {
