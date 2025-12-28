@@ -1,6 +1,6 @@
 To do -
 
-UI improvements
+UI improvement
 
 - place icons instead of labels in past orders and other lists
 - home page desktop spacings
