@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getNotifications } from '@/services/getNotifications';
 import { INotificationBody } from '@/interfaces/INotificationBody';
+import Skeleton from '@/components/Skeleton';
 
 type PastOrdersListProps = {
   children?: string;
@@ -29,10 +30,16 @@ const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
   return (
     <div className="w-full mt-4">
       <Grid className="w-full grid-cols-2">
-        {error && <p>Faced a server error. Please refresh</p>}
-        {loading && <p>Fetching Notifications</p>}
+        {error && <p className="col-span-2 text-red-600 font-poppins">Faced a server error. Please refresh</p>}
+        {loading && (
+          <>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} variant="card" className="h-32 mb-2" />
+            ))}
+          </>
+        )}
 
-        {notifications.length > 0 &&
+        {!loading && notifications.length > 0 &&
           Object.values(notifications).map((notificationJSON: string) => {
             const item: INotificationBody = JSON.parse(notificationJSON);
             const dateTime = new Date(item?.createdAt);

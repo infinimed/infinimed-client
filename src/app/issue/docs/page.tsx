@@ -6,8 +6,9 @@ import { createIssue } from '@/services/createIssue';
 import { Flex } from '@radix-ui/themes';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
+import { config } from '@/config';
 
 export default function Docs() {
   const searchParams = useSearchParams();
@@ -20,8 +21,32 @@ export default function Docs() {
   const dob = searchParams.get('dob');
   const gender = searchParams.get('gender');
   const price = searchParams.get('price');
-  const sub_category_name = searchParams.get('sub_category_name');
-  const category_name = searchParams.get('category_name');
+  const [sub_category_name, setSubCategoryName] = useState<string | null>(null);
+  const [category_name, setCategoryName] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchServiceData() {
+      if (!service_id) return;
+      
+      try {
+        const response = await fetch(
+          `${config.backendURL}/api/service/single/${service_id}`,
+        );
+        const service = await response.json();
+        
+        if (service?.sub_category) {
+          setSubCategoryName(service.sub_category.name);
+          if (service.sub_category.category_id) {
+            setCategoryName(service.sub_category.category_id.name);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching service data:', error);
+      }
+    }
+    
+    fetchServiceData();
+  }, [service_id]);
 
   const [successfullyUploaded, setSuccessfullyUploaded] =
     useState<boolean>(false);
@@ -43,7 +68,7 @@ export default function Docs() {
 
     setSuccessfullyUploaded(true);
     router.push(
-      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name}&category_name=${category_name}`,
+      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name || ''}&category_name=${category_name || ''}`,
     );
   }
 
@@ -64,7 +89,7 @@ export default function Docs() {
 
     setSuccessfullyUploaded(true);
     router.push(
-      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name}&category_name=${category_name}`,
+      `./schedule?issue_id=${createdIssue._id}&service_name=${service_name}&price=${price}&sub_category_name=${sub_category_name || ''}&category_name=${category_name || ''}`,
     );
   }
 

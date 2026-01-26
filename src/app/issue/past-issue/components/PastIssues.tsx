@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { getPastIssues } from '@/services/getPastIssues';
 import { IIssueDetails } from '@/interfaces/IIssue';
+import Skeleton from '@/components/Skeleton';
 
 type PastOrdersListProps = {
   children?: string;
@@ -32,9 +33,11 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
   return (
     <div className="w-full mt-4">
       {loading && (
-        <Flex className="w-full p-3 justify-center">
-          <p>Fetching Past Issues</p>
-        </Flex>
+        <Grid className="lg:grid-cols-3 grid-cols-1">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} variant="card" className="h-48 mb-2 mr-2" />
+          ))}
+        </Grid>
       )}
 
       {!loading && issues.length === 0 && (
@@ -48,7 +51,8 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
         </Flex>
       )}
 
-      <Grid className="lg:grid-cols-3 grid-cols-1">
+      {!loading && (
+        <Grid className="lg:grid-cols-3 grid-cols-1">
         {issues.map((item: IIssueDetails) => {
           return (
             item.assets.length > 0 && (
@@ -103,7 +107,8 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
             )
           );
         })}
-      </Grid>
+        </Grid>
+      )}
     </div>
   );
 };

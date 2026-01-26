@@ -89,14 +89,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ visibility }) => {
         <ul
           className="results-list lg:w-[70vw] w-[94vw] list-none z-10 m-0 mt-[1rem] rounded-sm max-h-[200px] overflow-y-auto bg-white absolute"
           style={{
-            border: results.length > 0 ? '1px solid #ccc' : 'none',
+            border: results.length > 0 || loading ? '1px solid #ccc' : 'none',
           }}
         >
-          {loading && <li className="p-[10px] cursor-pointer ">Loading...</li>}
-          {error && <li style={{ color: 'red' }}>{error}</li>}
-          {results.map((result) => (
+          {loading && (
+            <>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <li key={i} className="p-[10px]">
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </li>
+              ))}
+            </>
+          )}
+          {error && <li className="p-[10px] text-red-600">{error}</li>}
+          {!loading && results.map((result) => (
             <li
-              className="p-[10px] cursor-pointer "
+              className="p-[10px] cursor-pointer hover:bg-gray-50"
               key={result.id}
               onClick={() => handleSelect(result)}
               style={{

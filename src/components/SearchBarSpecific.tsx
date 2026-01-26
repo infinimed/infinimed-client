@@ -6,6 +6,7 @@ import magnifyingGlass from '@/icons/magnifyingGlass.svg';
 import Image from 'next/image';
 import { ISearchResult } from '@/interfaces/ISearchResult';
 import { useRouter } from 'next/navigation';
+import Skeleton from './Skeleton';
 
 type SearchBarSpecificProps = {
   children?: ReactNode;
@@ -75,8 +76,7 @@ const SearchBarSpecific: React.FC<SearchBarSpecificProps> = ({
           <Image src={magnifyingGlass} alt="search"></Image>
         </TextField.Slot>
       </TextField.Root>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="text-red-600 mt-2">{error}</p>}
 
       <ul
         className="results-list p-2"
@@ -84,20 +84,31 @@ const SearchBarSpecific: React.FC<SearchBarSpecificProps> = ({
           listStyle: 'none',
           padding: '0',
           margin: '0',
-          border: results.length > 0 ? '1px solid #ccc' : 'none',
+          border: results.length > 0 || loading ? '1px solid #ccc' : 'none',
           borderRadius: '5px',
           maxHeight: '200px',
           overflowY: 'auto',
           backgroundColor: 'white',
         }}
       >
-        {results.map((result) => (
+        {loading && (
+          <>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <li key={i} className="p-[10px]">
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              </li>
+            ))}
+          </>
+        )}
+        {!loading && results.map((result) => (
           <li
             key={result.id}
             onClick={() => handleSelect(result)}
+            className="p-[10px] cursor-pointer hover:bg-gray-50"
             style={{
-              padding: '10px',
-              cursor: 'pointer',
               borderBottom: '1px solid #f0f0f0',
             }}
           >

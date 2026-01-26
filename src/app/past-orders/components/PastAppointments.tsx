@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { getPastAppointments } from '@/services/getPastAppointments';
 import { IPastAppointment } from '@/interfaces/IPastAppointments';
 import { format } from 'date-fns';
+import Skeleton from '@/components/Skeleton';
 
 type PastOrdersListProps = {
   children?: string;
@@ -51,7 +52,13 @@ const PastAppointmentsList: React.FC<PastOrdersListProps> = () => {
     <div className="w-full mt-4 ">
       <h2 className="font-poppins text-2xl mb-2 font-bold">Appointments</h2>
       <Box className="">
-        {loading && <p className="font-poppins">Loading appointments…</p>}
+        {loading && (
+          <div className="space-y-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} variant="list-item" className="mb-2" />
+            ))}
+          </div>
+        )}
         {!loading && error && (
           <p className="font-poppins text-red-600">{error}</p>
         )}

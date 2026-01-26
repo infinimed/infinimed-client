@@ -34,7 +34,7 @@ const NavbarTop: React.FC<NavbarTopProps> = () => {
         <SelectArea></SelectArea>
 
         <SearchBarSpecific></SearchBarSpecific>
-  <Flex className="w-[12vw]" justify={'between'} align={'center'}>
+        <Flex className="w-[12vw]" justify={'between'} align={'center'}>
           <NotificationIcon></NotificationIcon>
           <CartIconTopbar></CartIconTopbar>
           <ProfilePicture></ProfilePicture>
