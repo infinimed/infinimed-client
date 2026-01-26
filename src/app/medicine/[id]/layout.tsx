@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div className="lg:w-[70vw] lg:ml-[25vw] lg:mt-[50px]">
         <div className="relative flex flex-col items-center overflow-y-scroll no-scrollbar">
           <Topbar
-            title="Paracetamol"
+            title="Medicine"
             leftIcon={<IoIosArrowBack fontSize={'24px'} />}
           ></Topbar>
           {/* <SearchBarSpecific /> */}

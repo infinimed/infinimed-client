@@ -49,13 +49,12 @@ const MedicineCard: React.FC<MedicineCardProps> = ({ medicine }) => {
       <div className="p-5 w-full bg-white">
         <Link href={`/medicine/${medicine?._id}`}>
           <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {medicine?.generic?.name}
-          </h5>
-
-          <p className="mb-3 flex justify-between w-full font-normal text-gray-700 dark:text-gray-400">
+            {/* {medicine?.generic?.name} */}
             {medicine?.brand} <br />
             {medicine?.name}
-          </p>
+          </h5>
+
+          {/* <p className="mb-3 flex justify-between w-full font-normal text-gray-700 dark:text-gray-400"></p> */}
           <p className="font-poppins font-bold text-xl mb-4">
             {medicine?.price}Tk
           </p>

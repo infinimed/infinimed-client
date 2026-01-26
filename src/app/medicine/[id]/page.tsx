@@ -31,9 +31,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             className="absolute lg:relative bottom-[-7.5vh]  bg-slate-300 w-[80vw] lg:w-[30vw] h-[15vh] rounded-full p-8 shadow-lg z-10 lg:z-0"
           >
             <Flex direction={'column'}>
-              <p className="font-poppins font-bold text-xl">
+              {/* <p className="font-poppins font-bold text-xl">
                 {data.generic.name?.toUpperCase()}
-              </p>
+              </p> */}
               <p className="font-poppins font-bold">{data.name}</p>
               <p className="font-poppins">{data.brand.toUpperCase()}</p>
             </Flex>
