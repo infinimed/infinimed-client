@@ -23,7 +23,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
         .then((res) => res.json())
         .then((res) => setUser(res));
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, user]);
 
   return (
     <>

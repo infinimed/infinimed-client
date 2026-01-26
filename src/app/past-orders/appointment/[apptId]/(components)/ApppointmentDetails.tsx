@@ -63,7 +63,7 @@ const AppointmentDetails: React.FC<DetailsProps> = () => {
         setLoading(false);
         setError(e);
       });
-  }, []);
+  }, [apptId]);
 
   useEffect(() => {
     if (notification_body) {

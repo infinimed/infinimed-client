@@ -27,7 +27,7 @@ export default function AuthProvider({
           console.log(error);
         });
     }
-  }, []);
+  }, [dispatch]);
 
   return <>{children}</>;
 }

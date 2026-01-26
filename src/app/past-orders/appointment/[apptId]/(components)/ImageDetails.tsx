@@ -1,7 +1,7 @@
 'use client';
 import { Box, Flex } from '@radix-ui/themes';
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 //@ts-expect-error no type declaration
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -31,7 +31,7 @@ const ImageDetails: React.FC<ImageDetailsProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = useCallback((event: MouseEvent) => {
     console.log('inside');
     if (
       modalRef.current &&
@@ -39,7 +39,7 @@ const ImageDetails: React.FC<ImageDetailsProps> = ({
     ) {
       setExpandPhotos(false);
     }
-  };
+  }, [setExpandPhotos]);
 
   useEffect(() => {
     // Event listener logic
@@ -51,7 +51,7 @@ const ImageDetails: React.FC<ImageDetailsProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [expandPhotos]);
+  }, [expandPhotos, handleClickOutside]);
 
   return (
     <Flex

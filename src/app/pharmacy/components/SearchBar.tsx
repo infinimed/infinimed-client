@@ -1,7 +1,7 @@
 'use client';
 import { Box } from '@radix-ui/themes';
 import { TextField } from '@radix-ui/themes';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState, useCallback } from 'react';
 // import { Magnifying } from '@radix-ui/react-icons'
 import magnifyingGlass from '@/icons/magnifyingGlass.svg';
 import Image from 'next/image';
@@ -31,19 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (query.trim() === '') {
-      dispatch(setMedicineSearchResults([]));
-      return;
-    }
-    const timeoutId = setTimeout(() => {
-      search(query);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [query]);
-
-  const search = async (query: string) => {
+  const search = useCallback(async (query: string) => {
     setLoading(true);
     setError('');
     try {
@@ -58,7 +46,19 @@ const SearchBar: React.FC<SearchBarProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch, searchEndPoint]);
+
+  useEffect(() => {
+    if (query.trim() === '') {
+      dispatch(setMedicineSearchResults([]));
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      search(query);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [query, search, dispatch]);
 
   return (
     <>

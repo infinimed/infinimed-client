@@ -50,7 +50,7 @@ const AppointmentDetails: React.FC<DetailsProps> = () => {
       .then((res) => {
         setAppointment(res);
       });
-  }, []);
+  }, [apptId]);
 
   const getStatusInfo = (status: Status) => {
     switch (status) {

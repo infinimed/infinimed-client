@@ -30,7 +30,7 @@ const UpcomingAppointment: React.FC<PastOrdersListProps> = () => {
           setError(e);
         });
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <div className="w-full mt-4 ">

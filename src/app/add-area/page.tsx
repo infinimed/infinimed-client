@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Box } from '@radix-ui/themes';
 import { useAppDispatch } from '@/lib/hooks';
@@ -34,22 +34,8 @@ const Page: React.FC = () => {
   const API_KEY = config.barikoiApiKey;
   const [sessionId, setSessionId] = useState<string | null>(null);
 
-  // Debounce handler
-  useEffect(() => {
-    setDraggable(false);
-    if (query.trim() === '') {
-      setResults([]);
-      return;
-    }
-    const timeoutId = setTimeout(() => {
-      searchPlaces(query);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [query]);
-
   // Fetch matching places
-  const searchPlaces = async (searchQuery: string) => {
+  const searchPlaces = useCallback(async (searchQuery: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -64,7 +50,22 @@ const Page: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_KEY]);
+
+  // Debounce handler
+  useEffect(() => {
+    setDraggable(false);
+    if (query.trim() === '') {
+      setResults([]);
+      return;
+    }
+    const timeoutId = setTimeout(() => {
+      searchPlaces(query);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [query, searchPlaces]);
+
   // Fetch place details to get latitude and longitude
   const fetchPlaceDetails = async (placeCode: string) => {
     if (!sessionId) {
@@ -100,7 +101,7 @@ const Page: React.FC = () => {
           });
         });
     }
-  }, [latLong]);
+  }, [latLong, API_KEY, markerMoved]);
 
   function handleAddAddress() {
     dispatch(

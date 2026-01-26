@@ -100,6 +100,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           {previewUrls.map((url, index) => (
             <div key={index} className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={url}
                 alt={`Preview ${index}`}

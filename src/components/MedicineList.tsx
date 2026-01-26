@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState, useCallback } from 'react';
 import MedicineCard from './MedicineCard';
 import { IMedicine } from '@/interfaces/IMedicine';
 import { config } from '@/config';
@@ -28,7 +28,7 @@ const MedicineList: React.FC<MedicineListProps> = () => {
     (state) => state.medicineSearchResults,
   );
 
-  async function fetchMedicines() {
+  const fetchMedicines = useCallback(async () => {
     try {
       const response = await fetch(
         `${config.backendURL}/api/medicine?page=${page}`,
@@ -41,7 +41,7 @@ const MedicineList: React.FC<MedicineListProps> = () => {
       setError(err as string);
       setLoading(false);
     }
-  }
+  }, [page]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -50,20 +50,21 @@ const MedicineList: React.FC<MedicineListProps> = () => {
       }
     });
 
-    if (loader.current) {
-      observer.observe(loader.current);
+    const currentLoader = loader.current;
+    if (currentLoader) {
+      observer.observe(currentLoader);
     }
 
     return () => {
-      if (loader.current) {
-        observer.unobserve(loader.current);
+      if (currentLoader) {
+        observer.unobserve(currentLoader);
       }
     };
   }, [hasMore]);
 
   useEffect(() => {
     fetchMedicines();
-  }, [page]);
+  }, [fetchMedicines]);
 
   // Show skeleton on initial load
   if (loading && medicines.length === 0 && medicineSearchResults.length === 0) {

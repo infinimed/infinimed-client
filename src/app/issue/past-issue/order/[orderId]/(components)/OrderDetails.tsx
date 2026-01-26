@@ -57,7 +57,7 @@ const OrderDetails: React.FC<DetailsProps> = () => {
       .then((res) => {
         setOrder(res);
       });
-  }, []);
+  }, [orderId]);
 
   const getStatusInfo = (status: IStatusOrder) => {
     switch (status) {

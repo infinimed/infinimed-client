@@ -28,7 +28,7 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
         setLoading(false);
         setError(e);
       });
-  }, []);
+  }, [page]);
 
   return (
     <div className="w-full mt-4">

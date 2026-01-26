@@ -7,7 +7,7 @@ import { Select } from '@radix-ui/themes';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useState, useCallback } from 'react';
 import { config } from '@/config';
 
 type SelectAreaProps = {
@@ -59,7 +59,7 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
   });
   const router = useRouter();
 
-  const getUserLocation = () => {
+  const getUserLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -97,11 +97,11 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
         },
       );
     }
-  };
+  }, [area._id, dispatch]);
 
   useEffect(() => {
     getUserLocation();
-  }, []);
+  }, [getUserLocation]);
 
   function onAreaChange(e: string) {
     if (e === 'current-area') {
