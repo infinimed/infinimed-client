@@ -1,16 +1,76 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Box, Flex } from '@radix-ui/themes';
 import SimilarItems from '@/components/SimilarItems';
 import { config } from '@/config';
+import { IServiceDetails } from '@/interfaces/IService';
 import Topbar from '@/components/Topbar';
 import { IoIosArrowBack } from 'react-icons/io';
 import ScheduleButton from '../components/ScheduleButton';
 
-const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const slug = (await params).id;
-  const res = await fetch(`${config.backendURL}/api/service/single/${slug}`);
-  const data = await res.json();
+type ServiceData = IServiceDetails & {
+  discountedPrice?: number;
+  dosage?: string;
+  description?: string;
+};
+
+const Page = ({ params }: { params: { id: string } }) => {
+  const [data, setData] = useState<ServiceData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchService = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const res = await fetch(
+          `${config.backendURL}/api/service/single/${params.id}`
+        );
+        if (!res.ok) {
+          throw new Error('Failed to load service data');
+        }
+        const json = (await res.json()) as ServiceData;
+        if (isMounted) {
+          setData(json);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : 'Unknown error');
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchService();
+    return () => {
+      isMounted = false;
+    };
+  }, [params.id]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <p className="font-poppins text-lg">Loading service...</p>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <p className="font-poppins text-lg text-red-600">
+          {error ?? 'Service not found'}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
