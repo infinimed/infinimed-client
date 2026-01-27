@@ -18,12 +18,11 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log(user);
       getUser()
         .then((res) => res.json())
         .then((res) => setUser(res));
     }
-  }, [isLoggedIn, user]);
+  }, [isLoggedIn]);
 
   return (
     <>

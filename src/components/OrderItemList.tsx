@@ -135,6 +135,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                 <div className="max-w-xs">
                   <Counter
                     quantity={item.quantity}
+                    valuePrefix="days"
                     increment={() =>
                       dispatch(
                         addToCart({
