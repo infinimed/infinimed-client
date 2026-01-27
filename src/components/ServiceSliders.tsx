@@ -1,55 +1,71 @@
-import React from 'react';
 import ServiceSlider from './ServiceSlider';
 import { Box } from '@radix-ui/themes';
 import Link from 'next/link';
+import { config } from '@/config';
 
-type ServiceSlidersProps = object;
-
-type IService = {
-  id: string;
-  title: string;
-  serviceSlug: string;
+type ServiceCategory = {
+  _id: string;
+  name: string;
 };
 
-const data: IService[] = [
-  {
-    id: '674c143043e32c1577911dbd',
-    title: 'Nursing at Home',
-    serviceSlug: 'nurses-at-home',
-  },
-  {
-    id: '674c149e43e32c1577911dbf',
-    title: 'Phisiotherapy at Home',
-    serviceSlug: 'phisiotherapy-at-home',
-  },
-  {
-    id: '674c14c443e32c1577911dc1',
-    title: 'Tests at Home',
-    serviceSlug: 'tests-at-home',
-  },
-  {
-    id: '674b021a08317ad40d1f681d',
-    title: 'Doctor Consultation',
-    serviceSlug: 'doctor-consultation',
-  },
-  {
-    id: '674c14e143e32c1577911dc3',
-    title: 'Health at Home',
-    serviceSlug: 'health-at-home',
-  },
-];
+type ServiceSubCategory = {
+  name: string;
+  category_id: ServiceCategory;
+};
 
-const ServiceSliders: React.FC<ServiceSlidersProps> = () => {
+type Service = {
+  _id: string;
+  name: string;
+  banner_image?: string;
+  sub_category: ServiceSubCategory;
+};
+
+const ServiceSliders = async () => {
+  const response = await fetch(
+    `${config.backendURL}/api/service/populated-services`,
+    { cache: 'no-store' },
+  );
+  const data = response.ok ? await response.json() : { services: [] };
+  const services: Service[] = data?.services ?? [];
+
+  const groupedByCategory = services.reduce(
+    (acc, service) => {
+      const category = service.sub_category?.category_id;
+      if (!category?._id || !category?.name) {
+        return acc;
+      }
+
+      if (!acc[category._id]) {
+        acc[category._id] = {
+          id: category._id,
+          title: category.name,
+          services: [],
+        };
+      }
+
+      acc[category._id].services.push(service);
+      return acc;
+    },
+    {} as Record<
+      string,
+      { id: string; title: string; services: Service[] }
+    >,
+  );
+
+  const categories = Object.values(groupedByCategory).sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
+
   return (
     <Box className="mt-5 mb-10 w-full">
-      {data.map((service) => (
-        <div key={service.id} className="">
+      {categories.map((category) => (
+        <div key={category.id} className="">
           <div className="flex justify-between">
             <p className="font-poppins no-scrollbar font-bold text-xl">
-              {service.title}
+              {category.title}
             </p>
             <Link
-              href={`/issue/services/${service.title.split(' ').join('-')}?_id=${service.id}`}
+              href={`/issue/services/${category.title.split(' ').join('-')}?_id=${category.id}`}
             >
               <p className="font-poppins font-semibold text-red-700 text-xl cursor-pointer">
                 See More
@@ -57,7 +73,7 @@ const ServiceSliders: React.FC<ServiceSlidersProps> = () => {
             </Link>
           </div>
 
-          <ServiceSlider serviceSlug={service.serviceSlug}></ServiceSlider>
+          <ServiceSlider services={category.services}></ServiceSlider>
         </div>
       ))}
     </Box>

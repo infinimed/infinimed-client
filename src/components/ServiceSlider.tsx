@@ -1,74 +1,58 @@
 import { Box, Flex, Text } from '@radix-ui/themes';
-import React from 'react';
-import * as subServiceList from '@/data/service.json';
-// import { ISubservice } from '@/interfaces/ISubservice';
 import Link from 'next/link';
-// import { Url } from 'next/dist/shared/lib/router/router';
 import Image from 'next/image';
 
 type ServiceSliderProps = {
-  serviceSlug: string;
+  services: Service[];
 };
 
 type Service = {
-  id: number;
-  subserviceName: string;
-  image: string;
-  url?: string;
+  _id: string;
+  name: string;
+  banner_image?: string;
 };
 
-type feed = {
-  'doctor-consultation': Service[];
-  'health-at-home': Service[];
-  'tests-at-home': Service[];
-  'phisiotherapy-at-home': Service[];
-  'nurses-at-home': Service[];
-};
-
-const ServiceSlider: React.FC<ServiceSliderProps> = ({ serviceSlug }) => {
-  const data: feed = subServiceList;
-
+const ServiceSlider: React.FC<ServiceSliderProps> = ({ services }) => {
   return (
     <Flex
       justify={'start'}
       align={'start'}
       className="w-full overflow-scroll no-scrollbar mt-3 h-full"
     >
-      {data[serviceSlug as keyof feed] &&
-        data[serviceSlug as keyof feed].slice(0, 4).map((service: Service) => (
-          <Box
-            className="w-[60vw] sm:w-[33vw] lg:w-[22vw] mr-3 mt-3 drop-shadow-lg"
-            key={service.id}
-          >
-            <Link href={`/issue/service/${service?.url}`}>
+      {services.slice(0, 4).map((service) => (
+        <Box
+          className="w-[60vw] sm:w-[33vw] lg:w-[22vw] mr-3 mt-3 drop-shadow-lg"
+          key={service._id}
+        >
+          <Link href={`/issue/service/${service._id}`}>
+            <Flex
+              direction={'column'}
+              className="w-[60vw] lg:w-full h-fit justify-start items-end relative"
+            >
+              <Image
+                width={200}
+                height={200}
+                className="w-[60vw] lg:w-full h-auto rounded-lg"
+                alt="service"
+                src={service.banner_image as string}
+              />
               <Flex
-                direction={'column'}
-                className="w-[60vw] lg:w-full h-fit justify-start items-end relative"
+                justify={'between'}
+                className="flex w-[60vw] lg:w-full pb-2 text-start justify-between items-center mt-3 pr-2"
               >
-                <Image
-                  width={200}
-                  height={200}
-                  className="w-[60vw] lg:w-full h-auto rounded-lg"
-                  alt="service"
-                  src={service.image as string}
-                />
-                <Flex
-                  justify={'between'}
-                  className="flex w-[60vw] lg:w-full pb-2 text-start justify-between items-center mt-3 pr-2"
+                <Text
+                  as="p"
+                  weight={'bold'}
+                  className="text-black text-lg font-poppins w-full"
                 >
-                  <Text
-                    as="p"
-                    weight={'bold'}
-                    className="text-black text-lg font-poppins w-full"
-                  >
-                    {service.subserviceName}
-                  </Text>
-                  {/* <Button className="w-1/3 rounded-full">+</Button> */}
-                </Flex>
+                  {service.name}
+                </Text>
+                {/* <Button className="w-1/3 rounded-full">+</Button> */}
               </Flex>
-            </Link>
-          </Box>
-        ))}
+            </Flex>
+          </Link>
+        </Box>
+      ))}
       {/* <div className=" w-[45vw] lg:w-fit sm:w-[33vw] mr-3 mt-3 drop-shadow-lg h-full lg:hidden">
         <Link href={(serviceSlug || '') as Url}>
           <Flex
