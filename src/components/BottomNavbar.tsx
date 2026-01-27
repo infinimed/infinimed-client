@@ -15,6 +15,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
   // const cartItems = useAppSelector((state) => state.addToCart.items);
   const isLoggedIn = useAppSelector((state) => state.setIsLoggedIn);
   const [user, setUser] = useState<IUser>();
+  console.log('user===', user);
 
   useEffect(() => {
     if (isLoggedIn) {
