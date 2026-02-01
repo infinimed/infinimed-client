@@ -7,6 +7,7 @@ import SimilarItems from '@/components/SimilarItems';
 import { config } from '@/config';
 import { IServiceDetails } from '@/interfaces/IService';
 import Topbar from '@/components/Topbar';
+import CartIconTopbar from '@/components/CartIconTopbar';
 import { IoIosArrowBack } from 'react-icons/io';
 import ScheduleButton from '../components/ScheduleButton';
 
@@ -28,7 +29,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         setIsLoading(true);
         setError(null);
         const res = await fetch(
-          `${config.backendURL}/api/service/single/${params.id}`
+          `${config.backendURL}/api/service/single/${params.id}`,
         );
         if (!res.ok) {
           throw new Error('Failed to load service data');
@@ -77,6 +78,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       <Topbar
         title={` ${data.sub_category.name} ${data.name}`}
         leftIcon={<IoIosArrowBack fontSize={'24px'} />}
+        rightIcon={<CartIconTopbar></CartIconTopbar>}
       />
       <div className="w-full h-fit overflow-y-scroll no-scrollbar">
         <div className="relative flex flex-col lg:flex-row w-full lg:w-[70vw] items-center justify-evenly lg:h-fit">

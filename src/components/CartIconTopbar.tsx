@@ -23,11 +23,13 @@ const CartIconTopbar: React.FC<CartIconTopbarProps> = () => {
         />
         <div className="absolute bottom-[-15px] right-[15px] bg-white border-solid border-2 border-indigo-900 pl-[6px] pt-[1px] pb-[1px] pr-[6px] rounded-full mt-8 text-indigo-900 font-poppins">
           {' '}
-          {Object.values(cartItems).reduce(
-            (accumulator, currentValue) =>
-              accumulator + currentValue.price * currentValue.quantity,
-            0,
-          )}
+          {Object.values(cartItems)
+            .reduce(
+              (accumulator, currentValue) =>
+                accumulator + currentValue.price * currentValue.quantity,
+              0,
+            )
+            .toFixed(2)}
           Tk
         </div>
       </div>

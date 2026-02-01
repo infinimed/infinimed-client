@@ -27,7 +27,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = () => {
 
   return (
     <>
-      <FloatingCallButton phoneNumber="1234567890" />
+      <FloatingCallButton phoneNumber="+880 1671-938184" />
       <Flex className="w-full" justify={'center'}>
         <nav className="bg-indigo-400/90 backdrop-blur-md shadow-[inset_0_-2px_4px_rgba(0,0,0,0.4)] h-14 w-[66%] max-w-sm rounded-full fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex justify-between items-center lg:hidden px-4 py-2 border border-indigo-300/40">
           <div className="flex-1 flex justify-center">

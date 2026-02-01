@@ -7,6 +7,7 @@ import ReduxProvider from '@/lib/redux-provider';
 import BottomNavbar from '@/components/BottomNavbar';
 import AuthProvider from '@/Providers/AuthProvider';
 import type { Metadata } from 'next';
+import { NavigationLoaderProvider } from '@/components/NavigationLoaderProvider';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -37,10 +38,12 @@ export default function RootLayout({
       >
         <ReduxProvider>
           <AuthProvider>
-            <Theme accentColor="ruby" panelBackground="solid">
-              <main className="min-h-screen pb-24">{children}</main>
-              <BottomNavbar />
-            </Theme>
+            <NavigationLoaderProvider>
+              <Theme accentColor="ruby" panelBackground="solid">
+                <main className="min-h-screen pb-24">{children}</main>
+                <BottomNavbar />
+              </Theme>
+            </NavigationLoaderProvider>
           </AuthProvider>
         </ReduxProvider>
       </body>

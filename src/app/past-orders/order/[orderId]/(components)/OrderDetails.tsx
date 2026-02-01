@@ -136,11 +136,22 @@ const OrderDetails: React.FC<DetailsProps> = () => {
             <Flex direction={'column'} className="ml-2 w-[90vw] lg:w-[30vw]">
               <p className="font-bold">Cart Items</p>
               <div className="">
-                {order?.cart_id.cartItems.map((cartItem) => (
-                  <div
-                    key={cartItem.medicine_id._id}
-                    className="flex items-center border-b-[1px] border-gray-400 mt-3"
-                  >
+                {order?.cart_id.cartItems.map((cartItem) => {
+                  const medicine =
+                    cartItem.medicine_id &&
+                    typeof cartItem.medicine_id !== 'string'
+                      ? cartItem.medicine_id
+                      : null;
+                  const medicineKey =
+                    typeof cartItem.medicine_id === 'string'
+                      ? cartItem.medicine_id
+                      : medicine?._id ?? cartItem._id;
+
+                  return (
+                    <div
+                      key={medicineKey}
+                      className="flex items-center border-b-[1px] border-gray-400 mt-3"
+                    >
                     <Image
                       width={70}
                       height={70}
@@ -154,12 +165,12 @@ const OrderDetails: React.FC<DetailsProps> = () => {
                         <span className="text-gray-500 font-bold">
                           Generic{' '}
                         </span>{' '}
-                        {cartItem.medicine_id.name}
+                        {medicine?.name ?? 'Unknown'}
                       </p>
 
                       <p>
                         <span className="text-gray-500 font-bold">Brand </span>
-                        {cartItem.medicine_id.brand}
+                        {medicine?.brand ?? 'Unknown'}
                       </p>
 
                       <p>
@@ -169,8 +180,9 @@ const OrderDetails: React.FC<DetailsProps> = () => {
                         {cartItem.quantity}
                       </p>
                     </Box>
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             </Flex>
           </Flex>

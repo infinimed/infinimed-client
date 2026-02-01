@@ -45,61 +45,62 @@ export const changeOrderFormat = (
       const containsTwice = lowerServiceName.includes('twice');
       const containsThrice = lowerServiceName.includes('thrice');
 
-      // Determine how many appointments to create per quantity unit
-      const appointmentCount = containsThrice ? 3 : containsTwice ? 2 : 1;
+      // Determine how many appointments per day and spacing between them
+      const appointmentsPerDay = containsThrice ? 3 : containsTwice ? 2 : 1;
+      const hoursBetweenAppointments = containsTwice ? 12 : 8;
 
-      // Create appointments for each quantity unit
-      for (let q = 0; q < orderItem.quantity; q++) {
-        // Calculate the base time offset for this quantity unit
-        // Each quantity unit starts appointments 8 hours apart from the previous unit's last appointment
-        const quantityOffsetHours = q * appointmentCount * 8;
+      // Parse the date string and create Date objects with local date and time
+      // appointment.time_frame.date is in format "Mon Dec 29 2024" from toDateString()
+      // appointment.time_frame.start_time and end_time are in "HH:mm" format (local time)
+      const dateObj = new Date(appointment.time_frame.date);
+      const [startHour, startMinute] = appointment.time_frame.start_time
+        .split(':')
+        .map(Number);
+      const [endHour, endMinute] = appointment.time_frame.end_time
+        .split(':')
+        .map(Number);
 
-        // Parse the date string and create Date objects with local date and time
-        // appointment.time_frame.date is in format "Mon Dec 29 2024" from toDateString()
-        // appointment.time_frame.start_time and end_time are in "HH:mm" format (local time)
-        const dateObj = new Date(appointment.time_frame.date);
-        const [startHour, startMinute] = appointment.time_frame.start_time
-          .split(':')
-          .map(Number);
-        const [endHour, endMinute] = appointment.time_frame.end_time
-          .split(':')
-          .map(Number);
+      // Create base start and end times for the first day
+      const baseStartDate = new Date(
+        dateObj.getFullYear(),
+        dateObj.getMonth(),
+        dateObj.getDate(),
+        startHour,
+        startMinute,
+        0,
+      );
+      const baseEndDate = new Date(
+        dateObj.getFullYear(),
+        dateObj.getMonth(),
+        dateObj.getDate(),
+        endHour,
+        endMinute,
+        0,
+      );
 
-        // Create Date objects with local date and time components
-        const baseStartDateLocal = new Date(
-          dateObj.getFullYear(),
-          dateObj.getMonth(),
-          dateObj.getDate(),
-          startHour,
-          startMinute,
-          0,
-        );
-        const baseEndDateLocal = new Date(
-          dateObj.getFullYear(),
-          dateObj.getMonth(),
-          dateObj.getDate(),
-          endHour,
-          endMinute,
-          0,
-        );
+      // Create appointments for each day (quantity represents number of days)
+      for (let day = 0; day < orderItem.quantity; day++) {
+        // Calculate day offset in milliseconds
+        const dayOffsetMs = day * 24 * 60 * 60 * 1000;
 
-        // Create appointments for this quantity unit
-        for (let i = 0; i < appointmentCount; i++) {
-          // Clone the base dates to avoid mutating them
-          const baseStartDate = new Date(baseStartDateLocal);
-          const baseEndDate = new Date(baseEndDateLocal);
+        // Create appointments for this day
+        for (
+          let appointmentIndex = 0;
+          appointmentIndex < appointmentsPerDay;
+          appointmentIndex++
+        ) {
+          // Calculate time offset for this appointment within the day
+          const appointmentOffsetMs =
+            appointmentIndex * hoursBetweenAppointments * 60 * 60 * 1000;
 
-          // Calculate total hours to add: quantity offset + appointment offset within this quantity
-          const totalHoursToAdd = quantityOffsetHours + i * 8;
-
+          // Create start and end times for this appointment
           const appointmentStartDate = new Date(
-            baseStartDate.getTime() + totalHoursToAdd * 60 * 60 * 1000,
+            baseStartDate.getTime() + dayOffsetMs + appointmentOffsetMs,
           );
           const appointmentEndDate = new Date(
-            baseEndDate.getTime() + totalHoursToAdd * 60 * 60 * 1000,
+            baseEndDate.getTime() + dayOffsetMs + appointmentOffsetMs,
           );
 
-          // toISOString() will include the correct date, automatically handling day changes
           result[orderItem.type].push({
             time_frame: {
               start_time: appointmentStartDate.toISOString(),

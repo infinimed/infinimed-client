@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <div className="relative h-screen lg:h-full flex flex-col items-center">
           <div className="lg:hidden">
             <Topbar
-              title="Pharmacy"
+              title="Profile"
               leftIcon={<IoIosArrowBack fontSize={'24px'} />}
               rightIcon={<CartIconTopbar></CartIconTopbar>}
             ></Topbar>

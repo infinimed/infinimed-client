@@ -6,6 +6,7 @@ import { Label } from '@radix-ui/react-label';
 import Link from 'next/link';
 import { config } from '@/config';
 import Skeleton from './Skeleton';
+import { useNavigationLoader } from './NavigationLoaderProvider';
 
 type IServiceListProps = {
   data?: ReactNode;
@@ -22,6 +23,7 @@ const ServiceList: React.FC<IServiceListProps> = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { start: startNavigation } = useNavigationLoader();
 
   useEffect(() => {
     async function fetchServices() {
@@ -70,6 +72,7 @@ const ServiceList: React.FC<IServiceListProps> = () => {
                 ? '/pharmacy'
                 : `/issue/services/${service.name.split(' ').join('-')}?_id=${service._id}`
             }
+            onClick={() => startNavigation()}
           >
             <Box className="w-fit sm:w-[33vw] lg:w-[11vw] " key={service._id}>
               <Flex className="w-[28vw] lg:w-full h-fit flex-col items-center">

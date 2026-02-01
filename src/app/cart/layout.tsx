@@ -30,7 +30,13 @@ export default function Layout({ children }: { children: ReactNode }) {
       router.push('/login?from_cart=true');
       return;
     }
+    if (!area?.detail || !area?.geocode?.lat || !area?.geocode?.long) {
+      setError('Please select a delivery area before placing your order');
+      router.push('/add-area');
+      return;
+    }
     setLoading(true);
+    setError(undefined);
     const processedOrderItems = changeOrderFormat(cart, {
       detail: area.detail,
       lat: area.geocode.lat,

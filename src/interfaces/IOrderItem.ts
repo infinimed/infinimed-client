@@ -11,24 +11,24 @@ export type IOrderDetails = {
   _id: string;
   cart_id: {
     _id: string;
-    cartItems: [
-      {
-        medicine_id: {
-          _id: string;
-          name: string;
-          generic: string;
-          dosage: string;
-          brand: string;
-          price: number;
-          discounted_price: number;
-          medicine_category: string;
-          cost_by_vendor: [];
-          __v: 0;
-        };
-        quantity: number;
-        _id: string;
-      },
-    ];
+    cartItems: {
+      medicine_id:
+        | string
+        | {
+            _id: string;
+            name: string;
+            generic: string;
+            dosage: string;
+            brand: string;
+            price: number;
+            discounted_price: number;
+            medicine_category: string;
+            cost_by_vendor: [];
+            __v: number;
+          };
+      quantity: number;
+      _id: string;
+    }[];
     user_id: {
       _id: string;
       first_name: string;
@@ -38,7 +38,7 @@ export type IOrderDetails = {
       __v: number;
       profile_picture: string;
     };
-    __v: 0;
+    __v: number;
   };
   status: string;
   address: {

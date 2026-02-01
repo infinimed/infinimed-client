@@ -58,6 +58,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     width={50}
                     height={50}
                     alt="cart-item"
+                    style={{ objectFit: 'contain' }}
                   ></Image>
                   <div className="ml-2">
                     <p className="font-poppins">
@@ -65,6 +66,9 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     </p>
                     <p className="font-poppins">
                       {(item as IMedicine).name},{(item as IMedicine).brand}
+                    </p>
+                    <p className="font-poppins text-sm text-gray-500">
+                      Unit price: {Number(item.price).toFixed(2)}Tk
                     </p>
                   </div>
                 </Flex>
@@ -111,6 +115,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     width={100}
                     height={100}
                     alt="cart-item"
+                    style={{ objectFit: 'contain' }}
                   ></Image>
                   <div className="ml-2">
                     <p className="font-poppins font-semibold">
@@ -129,6 +134,9 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
                     <p className="font-poppins">
                       between {(item as IAppointment).time_frame.start_time}-
                       {(item as IAppointment).time_frame.end_time}
+                    </p>
+                    <p className="font-poppins text-sm text-gray-500">
+                      Unit price: {Number(item.price).toFixed(2)}Tk
                     </p>
                   </div>
                 </Flex>
@@ -170,10 +178,9 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
           {' '}
           <p className="font-poppins font-bold text-gray-400">Summary</p>
           <p className="font-poppins font-bold ">
-            {Object.values(cart).reduce(
-              (acc, curr) => acc + curr.quantity * curr.price,
-              0,
-            )}
+            {Object.values(cart)
+              .reduce((acc, curr) => acc + curr.quantity * curr.price, 0)
+              .toFixed(2)}
             Tk
           </p>
         </Flex>
@@ -183,7 +190,7 @@ const OrderItemList: React.FC<OrderItemListProps> = () => {
         >
           {' '}
           <p className="font-poppins font-bold text-gray-400">Delivery Fee</p>
-          <p className="font-poppins font-bold">{30}Tk</p>
+          <p className="font-poppins font-bold">{(30).toFixed(2)}Tk</p>
         </Flex> */}
         <Flex
           justify={'between'}

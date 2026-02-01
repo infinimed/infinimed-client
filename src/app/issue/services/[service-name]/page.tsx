@@ -1,6 +1,7 @@
 'use client';
 
 import Topbar from '@/components/Topbar';
+import CartIconTopbar from '@/components/CartIconTopbar';
 import { IoIosArrowBack } from 'react-icons/io';
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text } from '@radix-ui/themes';
@@ -61,6 +62,7 @@ const RadioButtonList: React.FC = () => {
       <Topbar
         title="Services"
         leftIcon={<IoIosArrowBack fontSize={'24px'} />}
+        rightIcon={<CartIconTopbar></CartIconTopbar>}
       />
       <SearchBar
         visibility={true}

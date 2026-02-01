@@ -54,6 +54,18 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
       {!loading && (
         <Grid className="lg:grid-cols-3 grid-cols-1">
         {issues.map((item: IIssueDetails) => {
+          const serviceName = item?.service_id?.name ?? '';
+          const subCategoryName = item?.service_id?.sub_category?.name ?? '';
+          const categoryName =
+            item?.service_id?.sub_category?.category_id?.name ?? '';
+          const issueHref = `/issue/schedule?issue_id=${encodeURIComponent(
+            item._id,
+          )}&service_name=${encodeURIComponent(
+            serviceName,
+          )}&sub_category_name=${encodeURIComponent(
+            subCategoryName,
+          )}&category_name=${encodeURIComponent(categoryName)}`;
+
           return (
             item.assets.length > 0 && (
               <Flex
@@ -62,9 +74,7 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
                 justify={'between'}
                 className="border-2 p-2 rounded-md mb-2 mr-2 shadow-md w-[98%]"
               >
-                <Link
-                  href={`/issue/schedule?issue_id=${item._id}&service_name=${item.service_id.name}&sub_category_name=${item.service_id.sub_category.name}&category_name=${item.service_id.sub_category.category_id?.name || ''}`}
-                >
+                <Link href={issueHref}>
                   <Flex
                     direction={'column'}
                     wrap={'wrap'}
@@ -93,8 +103,7 @@ const PastIssuesList: React.FC<PastOrdersListProps> = () => {
                     </Flex>
                     <div className="ml-2">
                       <p className="font-poppins font-bold text-gray-500 lg:text-sm text-lg">
-                        Uploaded for {item?.service_id?.name}{' '}
-                        {item?.service_id?.sub_category?.name} Service
+                        Uploaded for {serviceName} {subCategoryName} Service
                       </p>
                     </div>
                   </Flex>
