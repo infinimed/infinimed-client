@@ -3,7 +3,7 @@
 import Topbar from '@/components/Topbar';
 import { IoIosArrowBack } from 'react-icons/io';
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import Link from 'next/link';
 import Image from 'next/image';
 import { config } from '@/config';
@@ -111,40 +111,31 @@ const RadioButtonList: React.FC = () => {
             )
           : options
         ).map((option) => (
-          <Box
-            className="w-[95vw] lg:w-1/3 sm:w-[33vw] mr-3 lg:mr-0 mt-3"
+          <Link
             key={option.value}
+            href={`/issue?service_id=${option.value}&service_name=${option.label}&price=${option.price}&sub_category_name=${option.sub_category_name}&category_name=${option.category_name}`}
+            className="relative flex flex-col my-3 mx-2 bg-white shadow-sm border border-slate-200 rounded-lg w-[95vw] sm:w-[33vw] lg:w-[30%] hover:shadow-lg transition-shadow"
           >
-            <Link
-              href={`/issue?service_id=${option.value}&service_name=${option.label}&price=${option.price}&sub_category_name=${option.sub_category_name}&category_name=${option.category_name}`}
-            >
-              <Flex className="w-[95vw] lg:w-full h-fit justify-start items-end relative">
-                <Flex
-                  direction={'column'}
-                  className="flex absolute w-[95vw] lg:w-full pl-4 pb-6 text-start justify-center items-start ml-[2.5vw]"
-                >
-                  <Text
-                    as="p"
-                    weight="bold"
-                    className="text-white text-2xl font-poppins z-10"
-                  >
-                    {option.label}
-                  </Text>
-                  <Text as="p" className="text-white text-xl font-poppins z-10">
-                    {option.price}Tk
-                  </Text>
-                </Flex>
-
-                <Image
-                  width={200}
-                  height={200}
-                  className="w-[95vw] lg:w-full h-auto rounded-lg brightness-50 ml-[2.5vw]"
-                  alt="service"
-                  src={option.banner_image}
-                />
-              </Flex>
-            </Link>
-          </Box>
+            <div className="relative p-2.5 aspect-video w-full overflow-hidden rounded-xl bg-clip-border">
+              <Image
+                width={400}
+                height={400}
+                className="h-full w-full object-cover rounded-md"
+                alt={option.label}
+                src={option.banner_image}
+              />
+            </div>
+            <div className="p-4">
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <p className="text-slate-800 text-lg font-poppins font-semibold truncate">
+                  {option.label}
+                </p>
+                <p className="text-cyan-600 text-lg font-semibold whitespace-nowrap">
+                  {option.price}Tk
+                </p>
+              </div>
+            </div>
+          </Link>
         ))}
       </Flex>
     </>

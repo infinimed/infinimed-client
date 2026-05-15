@@ -94,7 +94,7 @@ const ServiceSlider: React.FC<ServiceSliderProps> = ({ services }) => {
           draggable={false}
           className="relative flex flex-col my-6 mr-4 bg-white shadow-sm border border-slate-200 rounded-lg w-[60vw] sm:w-[33vw] lg:w-[22vw] shrink-0 hover:shadow-lg transition-shadow"
         >
-          <div className="relative p-2.5 h-64 overflow-hidden rounded-xl bg-clip-border">
+          <div className="relative p-2.5 aspect-video w-full overflow-hidden rounded-xl bg-clip-border">
             <Image
               width={400}
               height={400}
