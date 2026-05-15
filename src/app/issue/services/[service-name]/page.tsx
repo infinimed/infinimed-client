@@ -62,7 +62,11 @@ const RadioButtonList: React.FC = () => {
       <Topbar
         title="Services"
         leftIcon={<IoIosArrowBack fontSize={'24px'} />}
-        rightIcon={<CartIconTopbar></CartIconTopbar>}
+        rightIcon={
+          <div className="lg:hidden">
+            <CartIconTopbar />
+          </div>
+        }
       />
       <SearchBar
         visibility={true}

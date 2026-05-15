@@ -27,24 +27,17 @@ const data: IRecommendation[] = [
   {
     id: 1,
     image:
-      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner2_x4acuo.jpg',
+      'https://res.cloudinary.com/dgayarw1f/image/upload/v1778841094/WhatsApp_Image_2026-05-15_at_16.13.40_gk5hmi.jpg',
     title: '',
     link: '/issue',
   },
   {
     id: 2,
     image:
-      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner1_jurrbe.jpg',
+      'https://res.cloudinary.com/dgayarw1f/image/upload/v1778841092/WhatsApp_Image_2026-05-15_at_16.13.39_jmarf0.jpg',
     title: '',
     link: '/issue',
-  },
-  {
-    id: 3,
-    image:
-      'https://res.cloudinary.com/dlezm6lou/image/upload/v1746249506/banner3_iavzk0.jpg',
-    title: '',
-    link: '/issue',
-  },
+  }
 ];
 
 const settings = {

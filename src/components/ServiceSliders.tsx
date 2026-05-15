@@ -56,10 +56,24 @@ const ServiceSliders = async () => {
     a.title.localeCompare(b.title),
   );
 
+  const pastelBackgrounds = [
+    'bg-blue-50',
+    'bg-red-50',
+    'bg-green-50',
+    'bg-yellow-50',
+    'bg-purple-50',
+    'bg-pink-50',
+    'bg-orange-50',
+    'bg-teal-50',
+  ];
+
   return (
     <Box className="mt-5 mb-10 w-full">
-      {categories.map((category) => (
-        <div key={category.id} className="">
+      {categories.map((category, index) => (
+        <div
+          key={category.id}
+          className={`${pastelBackgrounds[index % pastelBackgrounds.length]} rounded-lg p-4 mb-4`}
+        >
           <div className="flex justify-between">
             <p className="font-poppins no-scrollbar font-bold text-xl">
               {category.title}
