@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useEffect, useRef, useState, useCallback } from 'react';
+import React, { ReactNode, useEffect, useState, useCallback } from 'react';
 import MedicineCard from './MedicineCard';
 import { IMedicine } from '@/interfaces/IMedicine';
 import { config } from '@/config';
@@ -9,6 +9,8 @@ import Skeleton from './Skeleton';
 type MedicineListProps = {
   children?: ReactNode;
 };
+
+const PAGE_SIZE = 10;
 
 const MedicineCardSkeleton = () => (
   <div className="w-[45vw] lg:w-[15vw] lg:m-2">
@@ -22,45 +24,45 @@ const MedicineList: React.FC<MedicineListProps> = () => {
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const loader = useRef(null);
+  // Held in state rather than a ref so the observer effect re-runs once the
+  // sentinel actually mounts (it is absent during the initial-load skeleton).
+  const [loaderNode, setLoaderNode] = useState<HTMLDivElement | null>(null);
 
   const medicineSearchResults = useAppSelector(
     (state) => state.medicineSearchResults,
   );
 
   const fetchMedicines = useCallback(async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${config.backendURL}/api/medicine?page=${page}`,
       );
       const data = await response.json();
       setMedicines((prev: IMedicine[]) => [...prev, ...data]);
-      if (data.length < 10) setHasMore(false);
-      setLoading(false);
+      if (data.length < PAGE_SIZE) setHasMore(false);
     } catch (err) {
       setError(err as string);
+    } finally {
       setLoading(false);
     }
   }, [page]);
 
   useEffect(() => {
+    // Skipping while loading doubles as the in-flight guard, and rebuilding the
+    // observer after each fetch re-fires it when the sentinel is still in view.
+    if (!loaderNode || !hasMore || loading) return;
+
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasMore) {
+      if (entries[0].isIntersecting) {
         setPage((prev) => prev + 1);
       }
     });
 
-    const currentLoader = loader.current;
-    if (currentLoader) {
-      observer.observe(currentLoader);
-    }
+    observer.observe(loaderNode);
 
-    return () => {
-      if (currentLoader) {
-        observer.unobserve(currentLoader);
-      }
-    };
-  }, [hasMore]);
+    return () => observer.disconnect();
+  }, [loaderNode, hasMore, loading]);
 
   useEffect(() => {
     fetchMedicines();
@@ -85,11 +87,11 @@ const MedicineList: React.FC<MedicineListProps> = () => {
         ? (medicineSearchResults as (IMedicine & { _id: string })[])
         : (medicines as (IMedicine & { _id: string })[])
       )?.map((medicine: IMedicine & { _id: string }) => (
-        <div key={medicine?.id} className="w-[45vw] lg:w-[15vw] lg:m-2">
+        <div key={medicine?._id} className="w-[45vw] lg:w-[15vw] lg:m-2">
           <MedicineCard medicine={medicine} />
         </div>
       ))}
-      <div ref={loader}></div>
+      <div ref={setLoaderNode}></div>
       {loading && medicines.length > 0 && (
         <div className="w-full flex justify-center">
           {Array.from({ length: 3 }).map((_, i) => (
