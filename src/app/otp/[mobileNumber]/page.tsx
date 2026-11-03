@@ -146,8 +146,8 @@ const OTPPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-8">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96 mb-4">
+    <div className="w-full flex justify-center px-4 py-10 lg:py-20">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-6 text-center">Enter OTP</h1>
         <p className="text-sm text-gray-600 mb-4 text-center">
           We&apos;ve sent a 6-digit verification code to <br />
