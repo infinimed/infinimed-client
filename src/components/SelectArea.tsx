@@ -126,7 +126,7 @@ const SelectArea: React.FC<SelectAreaProps> = () => {
     <>
       <div className="flex items-center justify-between">
         <Image
-          src="https://res.cloudinary.com/dgayarw1f/image/upload/v1745768384/Neomorphic_Icon_set_002-10_ecbp7k.svg"
+          src="https://res.cloudinary.com/dgayarw1f/image/upload/v1793734789/location-icon_kzpg9y.svg"
           alt="marker"
           width={70}
           height={70}
